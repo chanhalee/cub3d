@@ -6,7 +6,7 @@
 /*   By: chanhale <chanhale@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:25:34 by chanhale          #+#    #+#             */
-/*   Updated: 2022/08/10 02:22:03 by chanhale         ###   ########.fr       */
+/*   Updated: 2022/08/10 02:30:28 by chanhale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,11 @@ int main(void)
 		else if(counter == map.size_y-1)
 			map.map[counter] = ft_strdup("1111111111");
 			//map.map[counter] = ft_strdup("11111111111111111111");
+		else if(counter == 3)
+			map.map[counter] = ft_strdup("1000110001");
 		else
 			map.map[counter] = ft_strdup("1000000001");
-			//map.map[counter] = ft_strdup("10000000000000000001");
+			//map.map[counter] = ft_strdup("10000000000100000001");
 	}
 	counter = -1;
 	while(++counter < TYPE_HOR_PIX)
