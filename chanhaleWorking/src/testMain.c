@@ -6,7 +6,7 @@
 /*   By: chanhale <chanhale@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:25:34 by chanhale          #+#    #+#             */
-/*   Updated: 2022/08/10 02:03:33 by chanhale         ###   ########.fr       */
+/*   Updated: 2022/08/10 02:22:03 by chanhale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,9 @@ int main(void)
 		free(map.map[counter]);
 	}
 	free(map.map);
+	//system("leaks test");
+	return (0);
 }
+
+// cd chanhaleWorking/src
+// gcc *.c ./*/*.c ./*/*/*.c -o test && ./test 
