@@ -6,7 +6,7 @@
 /*   By: chanhale <chanhale@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:44:23 by chanhale          #+#    #+#             */
-/*   Updated: 2022/08/10 02:02:28 by chanhale         ###   ########.fr       */
+/*   Updated: 2022/08/10 14:05:40 by chanhale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ void ray_cast_calc(t_render_source *s , t_map *m, int px)
 		theta += 2 * TYPE_PI;
 	bias_x = 0;
 	if (theta < TYPE_PI * 1.5 && theta >  TYPE_PI * 0.5)
-		bias_x = -1;
+		bias_x = -1; // x 축 음의 방향으로 ray 가 발사될 경우
 	bias_y = 0;
 	if (theta >  TYPE_PI)
-		bias_y = -1;
+		bias_y = -1; // y축 음의 방향으로 ray 가 발사될 경우
 	near_x = (ceil(m->player.pos_x) - m->player.pos_x + bias_x);
 	near_y = (ceil(m->player.pos_y) - m->player.pos_y + bias_y);
 	while (1)
@@ -47,7 +47,7 @@ void ray_cast_calc(t_render_source *s , t_map *m, int px)
 			if (m->map[(int)(m->player.pos_y + near_y) - bias_y - 1][(int)(m->player.pos_x + near_x) + bias_x] == '1')
 			{
 				s->distance = fabs(near_x / cos(theta));
-				s->object_pos = (double)TYPE_PIX_PER_OBJ * (/*(double)bias_x * -1 + (double)((bias_x * 2) + 1) * */(near_y - fabs(near_x * tan(theta)) - bias_y));
+				s->object_pos = (double)TYPE_PIX_PER_OBJ * ((near_y - fabs(near_x * tan(theta)) - bias_y));
 				if (bias_x != bias_y)
 					s->object_pos *= -1;
 				s->object_pos += TYPE_PIX_PER_OBJ * -bias_x;
@@ -63,7 +63,7 @@ void ray_cast_calc(t_render_source *s , t_map *m, int px)
 			if (m->map[(int)(m->player.pos_y + near_y) + bias_y][(int)(m->player.pos_x + near_x) - bias_x - 1] == '1')
 			{
 				s->distance = fabs(near_y / sin(theta));
-				s->object_pos = (double)TYPE_PIX_PER_OBJ * (/*(double)bias_y * 1 - (double)((bias_y * 2) + 1) * */(near_x - fabs(near_y / tan(theta)) - bias_x));
+				s->object_pos = (double)TYPE_PIX_PER_OBJ * ((near_x - fabs(near_y / tan(theta)) - bias_x));
 				if (bias_x == bias_y)
 					s->object_pos *= -1;
 				s->object_pos += TYPE_PIX_PER_OBJ * (1 + bias_y);
