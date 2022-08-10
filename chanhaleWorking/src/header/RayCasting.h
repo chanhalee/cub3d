@@ -6,7 +6,7 @@
 /*   By: chanhale <chanhale@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:26:10 by chanhale          #+#    #+#             */
-/*   Updated: 2022/08/10 13:52:44 by chanhale         ###   ########.fr       */
+/*   Updated: 2022/08/10 14:24:40 by chanhale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <math.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include "../../mlx/mlx.h"
 
 # define TYPE_ANGLE 90.0
 # define TYPE_MIN_DIS 25
@@ -90,6 +91,6 @@ void	init_t_render_source(t_render_source *source);
 double	get_distance(double from_x, double from_y, double to_x, double to_y);
 char	*ft_strdup(const char *src);
 void	ray_cast_calc(t_render_source *s , t_map *m, int px);
-
+int		mlx_img_init(t_mlx *mlx);
 
 #endif
