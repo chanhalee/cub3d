@@ -6,7 +6,7 @@
 /*   By: chanhale <chanhale@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:44:23 by chanhale          #+#    #+#             */
-/*   Updated: 2022/08/10 14:05:40 by chanhale         ###   ########.fr       */
+/*   Updated: 2022/08/10 15:10:35 by chanhale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int Render(t_map *map)
 	
 }
 
-void ray_cast_calc(t_render_source *s , t_map *m, int px)
+void ray_cast_calc(t_render_source *s , t_map *m, t_mlx *mlx, int px)
 {
 	double	theta;
 	int		bias_x;
@@ -53,7 +53,9 @@ void ray_cast_calc(t_render_source *s , t_map *m, int px)
 				s->object_pos += TYPE_PIX_PER_OBJ * -bias_x;
 				s->ob_x = m->player.pos_x + near_x;
 				s->ob_y = m->player.pos_y + near_x * tan(theta);
-				// 그림도 넣기
+				s->object = mlx->w_img;
+				if (bias_x == -1)
+					s->object = mlx->e_img;
 				return ;
 			}
 			near_x += 1 + bias_x * 2;
@@ -69,7 +71,9 @@ void ray_cast_calc(t_render_source *s , t_map *m, int px)
 				s->object_pos += TYPE_PIX_PER_OBJ * (1 + bias_y);
 				s->ob_y = m->player.pos_y + near_y;
 				s->ob_x = m->player.pos_x + near_y / tan(theta);
-				// 그림도 넣기
+				s->object = mlx->s_img;
+				if (bias_y == -1)
+					s->object = mlx->n_img;
 				return ;
 			}
 			near_y += 1 + bias_y * 2;

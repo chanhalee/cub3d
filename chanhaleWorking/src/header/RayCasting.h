@@ -6,7 +6,7 @@
 /*   By: chanhale <chanhale@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:26:10 by chanhale          #+#    #+#             */
-/*   Updated: 2022/08/10 14:24:40 by chanhale         ###   ########.fr       */
+/*   Updated: 2022/08/10 15:07:07 by chanhale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ typedef struct s_game
 void	init_t_render_source(t_render_source *source);
 double	get_distance(double from_x, double from_y, double to_x, double to_y);
 char	*ft_strdup(const char *src);
-void	ray_cast_calc(t_render_source *s , t_map *m, int px);
+void	ray_cast_calc(t_render_source *s , t_map *m, t_mlx *mlx, int px);
 int		mlx_img_init(t_mlx *mlx);
 
 #endif
