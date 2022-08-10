@@ -107,15 +107,183 @@ int	check_valid_map(t_map *map)
 	return (0);
 }
 
+int	check_parsing(t_map *map)
+{
+	if (map->s_path == NULL)
+	{
+		//printf("SO");
+		//printf("\n");
+		return (1);
+	}
+	if (map->n_path == NULL)
+	{
+		//printf("NO");
+		//printf("\n");
+		return (1);
+	}
+	if (map->w_path == NULL)
+	{
+		//printf("WE");
+		//printf("\n");
+		return (1);
+	}
+	if (map->e_path == NULL)
+	{
+		//printf("EA");
+		//printf("\n");
+		return (1);
+	}
+	if (map->floor_rgb == 1)
+	{
+		//printf("F");
+		//printf("\n");
+		return (1);
+	}
+	if (map->ceil_rgb == 1)
+	{
+		//printf("C");
+		//printf("\n");
+		return (1);
+	}
+	return (0);
+}
+
+int	ft_atoi(char **nptr)
+{
+	int		nbr;
+	int		sign;
+	unsigned int	i;
+
+	nbr = 0;
+	sign = 1;
+	i = 0;
+	if ((*nptr)[i] == '-')
+		sign = -1;
+	if ((*nptr)[i] == '-' || (*nptr)[i] == '+')
+		i++;
+	while ((*nptr)[i] >= '0' && (*nptr)[i] <= '9')
+	{
+		nbr = (nbr * 10) + ((*nptr)[i++] - '0') * sign;
+		if (nbr > 255)
+			return (-1);
+		if (nbr < 0)
+			return (-1);
+	}
+	*nptr = *nptr + i;
+	return (nbr);
+}
+
+unsigned int	get_rgb(char *input)
+{
+	//atoi를 3번써서 하나씩 가져오고, 콤마인지 확인하고..?
+	int	r;
+	int	g;
+	int	b;
+	unsigned int	rgb;
+
+	r = ft_atoi(&input);
+	if (r < 0 || *input++ != ',')
+		return (1);
+	g = ft_atoi(&input);
+	if (g < 0 || *input++ != ',')
+		return (1);
+	b = ft_atoi(&input);
+	if (b < 0 || *input++ != '\0')
+		return (1);
+	rgb = r;
+	rgb = (rgb << 8) + g;
+	rgb = (rgb << 8) + b;
+	rgb <<= 8;
+	return (rgb);
+}
+
+int	equals(char *s1, char *s2)
+{
+	int	len;
+	int	i;
+
+	len = ft_strlen(s1);
+	if (ft_strlen(s2) != len)
+		return (1);
+	i = 0;
+	while (i < len)
+	{
+		if (s1[i] != s2[i])
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int	parse_value(t_map *map, char *line)
+{
+	char	**token;
+	int	ret;
+
+	ret = 0;
+	if (word_cnt(line, ' ') != 2)
+		return (1);
+	token = ft_split(line, ' ');
+	if (equals(token[0], "NO") == 0)
+	{
+		map->n_path = ft_strdup(token[1]);
+	}
+	else if (equals(token[0], "SO") == 0)
+	{
+		map->s_path = ft_strdup(token[1]);
+	}
+	else if (equals(token[0], "WE") == 0)
+	{
+		map->w_path = ft_strdup(token[1]);
+	}
+	else if (equals(token[0], "EA") == 0)
+	{
+		map->e_path = ft_strdup(token[1]);
+	}
+	else if (equals(token[0], "F") == 0)
+	{
+		map->floor_rgb = get_rgb(token[1]); //return 1 on error
+	}
+	else if (equals(token[0], "C") == 0)
+	{
+		map->ceil_rgb = get_rgb(token[1]);
+	}
+	else
+		ret = 1;
+	free(token[0]);
+	free(token[1]);
+	free(token);
+	return (ret);
+}
+
 int	get_texture(t_map *map, int fd)
 {
+	int	parsing;
+	char	*line;
+
+	get_next_line(fd, &line);
+	parsing = 1;
+	while (parsing && line != NULL)
+	{
+		if (ft_strlen(line) != 0) // line isn't empty
+		{
+			if (parse_value(map, line))
+			{
+				return (1);
+			}
+		}
+		parsing = check_parsing(map);
+		if (parsing != 0)
+			get_next_line(fd, &line);
+	}
+	free(line);
 	return (0);
 }
 
 int	check_filename(char *filename)
 {
 	int	len;
-	
+
 	len = ft_strlen(filename);
 	if (filename[len - 4] == '.'
 			&& filename[len - 3] == 'c'
@@ -123,6 +291,20 @@ int	check_filename(char *filename)
 			&& filename[len - 1] == 'b')
 		return (0);
 	return (1);
+}
+
+void	init_map(t_map *map)
+{
+	map->size_x = 0;
+	map->size_y = 0;
+	map->map = NULL;
+	map->s_path = NULL;
+	map->n_path = NULL;
+	map->w_path = NULL;
+	map->e_path = NULL;
+	map->floor_rgb = 1;
+	map->ceil_rgb = 1;
+	return ;
 }
 
 int	parse_map(t_map *map, char *filename)
@@ -133,28 +315,41 @@ int	parse_map(t_map *map, char *filename)
 	t_str	*cur;
 	char	*line;
 	int		i;
+	int		x;
 
 	if (check_filename(filename) != 0)
 		return (1);
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		return (1);
+	//set map memory to NULLs
+	init_map(map);
 
 	//2. get texture paths and floor/ceiling rgb -> if invalid, return 1
-	if (get_texture(map, fd) != 0)
-		return (1);
 
-	//3. read map info into temp -> get row col info
+	if (get_texture(map, fd) != 0)
+	{
+		printf("texture\n");
+		return (1);
+	}
+
+	//3. read map info into temp
 	temp = NULL;
 	map->size_x = 0;
 	map->size_y = 0;
-	while (get_next_line(fd, &line))
+	get_next_line(fd, &line);
+	while (line != NULL && ft_strlen(line) == 0)
+	{
+		x = get_next_line(fd, &line);
+	}
+	while (x)
 	{
 		byte_read = ft_strlen(line);
-		if (byte_read > map->size_y) // fix this line to count number of elements with ft_split
+		if (byte_read > map->size_y)
 			map->size_y = byte_read;
 		(map->size_x)++;
 		str_add_back(&temp, ft_strdup(line));
+		x = get_next_line(fd, &line);
 	}
 	close(fd);
 

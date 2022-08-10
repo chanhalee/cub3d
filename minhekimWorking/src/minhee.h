@@ -31,13 +31,25 @@ typedef struct s_map
 	char			*n_path;
 	char			*w_path;
 	char			*e_path;
-	int				floor_rgb;
-	int				ceil_rgb;
+	unsigned int	floor_rgb;
+	unsigned int	ceil_rgb;
 	double			sight_safe_margin;
 } t_map;
 
+typedef	struct s_keys
+{
+	int	w;
+	int	a;
+	int	s;
+	int	d;
+	int	left;
+	int right;
+} t_keys;
+
+
 int	parse_map(t_map *map, char *filename);
 
+//get next line
 int						get_next_line(int fd, char **line);
 int						cat_buf(char **line, char *buf, int bytes_read);
 int						save_leftover(char *buf, char **saved);
@@ -57,4 +69,12 @@ int	str_clear(t_str **list);
 
 void	ft_strfill(char *buf, int start, int end, char c);
 void	ft_strcpy(char *dest, char *src);
+
+//ft_split
+char					**ft_split(char const *s, char c);
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
+void	*ft_calloc(size_t nmemb, size_t size);
+unsigned int	word_cnt(char const *s, char c);
+void	*ft_memset(void *dest, int c, size_t n);
+
 #endif
