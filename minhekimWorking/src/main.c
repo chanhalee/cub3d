@@ -1,6 +1,8 @@
 #include "../mlx/mlx.h"
-#include "stdio.h"
-#include "stdlib.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include "minhee.h"
+//used printf: replace with a custom error writing function
 
 #define X_EVENT_KEY_PRESS	2
 #define X_EVENT_EXIT		17
@@ -42,22 +44,31 @@ void	exit_hook(void)
 	return exit_game();
 }
 
-int	main(void)
+int	main(int argc, char **argv)
 {
 	void	*mlx;
 	void	*win;
+	t_map	map;
 
+	// parse map & check
+	if (argc != 2)
+	{
+		printf("wrong number of arguments\n");
+		return (0);
+	}
+	if (parse_map(&map, argv[1]))
+	{
+		printf("map error\n");
+		return (0);
+	}
 	// creating window
 	mlx = mlx_init();
 	win = mlx_new_window(mlx, 500, 500, "cub3d");
-
-	// key event handling
-	// 1. move (W A S D)
-	// 2. rotation (<- ->)
-	// 3. exit (esc)
 
 	// need to pass arg(struct pointer) in place of null
 	mlx_hook(win, X_EVENT_KEY_PRESS, 0, &key_press, NULL);
 	mlx_hook(win, X_EVENT_EXIT, 0, &exit_hook, NULL);
 	mlx_loop(mlx);
+
+	return (0);
 }
