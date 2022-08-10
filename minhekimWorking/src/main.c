@@ -5,6 +5,7 @@
 //used printf: replace with a custom error writing function
 
 #define X_EVENT_KEY_PRESS	2
+#define X_EVENT_KEY_RELEASE	3
 #define X_EVENT_EXIT		17
 
 #define	KEY_ESC	53
@@ -21,20 +22,38 @@ void	exit_game(void) // <- need to free all heap memory: pass struct!
 	exit(0);
 }
 
-void	key_press(int keycode)
+void	key_press(int keycode, t_keys *keys)
 {
 	if (keycode == KEY_W)
-		printf("move up\n");
+		keys->w = 1;
 	else if (keycode == KEY_S)
-		printf("move down\n");
+		keys->s = 1;
 	else if (keycode == KEY_A)
-		printf("move left\n");
+		keys->a = 1;
 	else if (keycode == KEY_D)
-		printf("move right\n");
+		keys->d = 1;
 	else if (keycode == KEY_LEFT)
-		printf("rotate left\n");
+		keys->left = 1;
 	else if (keycode == KEY_RIGHT)
-		printf("rotate right\n");
+		keys->right = 1;
+	else if (keycode == KEY_ESC)
+		exit_game();
+}
+
+void	key_release(int keycode, t_keys *keys)
+{
+	if (keycode == KEY_W)
+		keys->w = 0;
+	else if (keycode == KEY_S)
+		keys->s = 0;
+	else if (keycode == KEY_A)
+		keys->a = 0;
+	else if (keycode == KEY_D)
+		keys->d = 0;
+	else if (keycode == KEY_LEFT)
+		keys->left = 0;
+	else if (keycode == KEY_RIGHT)
+		keys->right = 0;
 	else if (keycode == KEY_ESC)
 		exit_game();
 }
@@ -49,6 +68,7 @@ int	main(int argc, char **argv)
 	void	*mlx;
 	void	*win;
 	t_map	map;
+	t_keys	keys;
 
 	// parse map & check
 	if (argc != 2)
@@ -66,7 +86,8 @@ int	main(int argc, char **argv)
 	win = mlx_new_window(mlx, 500, 500, "cub3d");
 
 	// need to pass arg(struct pointer) in place of null
-	mlx_hook(win, X_EVENT_KEY_PRESS, 0, &key_press, NULL);
+	mlx_hook(win, X_EVENT_KEY_PRESS, 0, &key_press, &keys);
+	mlx_hook(win, X_EVENT_KEY_RELEASE, 0, &key_release, &keys);
 	mlx_hook(win, X_EVENT_EXIT, 0, &exit_hook, NULL);
 	mlx_loop(mlx);
 
