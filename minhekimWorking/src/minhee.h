@@ -6,18 +6,35 @@
 #include <fcntl.h>
 #include <stdio.h>
 
+# define TYPE_PI 3.14159265359
+
 typedef	struct	s_str
 {
 	char	*content;
 	struct s_str	*next;
 }	t_str;
 
-typedef	struct	s_map
+typedef struct s_vector
 {
-	int	row;
-	int	col;
-	char	**map;
-}	t_map;
+	double	pos_x;
+	double	pos_y;
+	double	vision_theta;
+}	t_vector;
+
+typedef struct s_map
+{
+	struct s_vector	player;
+	int				size_x;
+	int				size_y;
+	char			**map;
+	char			*s_path;
+	char			*n_path;
+	char			*w_path;
+	char			*e_path;
+	int				floor_rgb;
+	int				ceil_rgb;
+	double			sight_safe_margin;
+} t_map;
 
 int	parse_map(t_map *map, char *filename);
 
