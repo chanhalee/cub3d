@@ -6,7 +6,7 @@
 /*   By: chanhale <chanhale@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:26:10 by chanhale          #+#    #+#             */
-/*   Updated: 2022/08/10 00:35:46 by chanhale         ###   ########.fr       */
+/*   Updated: 2022/08/10 13:52:44 by chanhale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,6 @@ typedef struct s_vector
 	double	vision_theta;
 }	t_vector;
 
-typedef struct s_map
-{
-	struct s_vector	player;
-	int				size_x;
-	int				size_y;
-	char			**map;
-	double			sight_safe_margin;
-} t_map;
-
 typedef struct s_render_source
 {
 	void		*object;
@@ -51,6 +42,49 @@ typedef struct s_render_source
 	double		ob_x;
 	double		ob_y;
 } t_render_source;
+
+typedef struct s_map
+{
+	struct s_vector	player;
+	int				size_x;
+	int				size_y;
+	char			**map;
+	char			*s_path;
+	char			*n_path;
+	char			*w_path;
+	char			*e_path;
+	int				floor_rgb;
+	int				ceil_rgb;
+	double			sight_safe_margin;
+} t_map;
+
+typedef	struct s_keys
+{
+	int	w;
+	int	a;
+	int	s;
+	int	d;
+	int	left;
+	int right;
+} t_keys;
+
+typedef struct s_mlx
+{
+	void *mlx;
+	void *win;
+	void *n_img;
+	void *s_img;
+	void *w_img;
+	void *e_img;
+} t_mlx;
+
+typedef struct s_game
+{
+	t_map *map;
+	t_keys *keys;
+	t_mlx *mlx;
+	t_render_source	*source;
+} t_game;
 
 void	init_t_render_source(t_render_source *source);
 double	get_distance(double from_x, double from_y, double to_x, double to_y);
