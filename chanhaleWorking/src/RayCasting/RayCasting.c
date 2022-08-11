@@ -6,15 +6,53 @@
 /*   By: chanhale <chanhale@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:44:23 by chanhale          #+#    #+#             */
-/*   Updated: 2022/08/10 15:10:35 by chanhale         ###   ########.fr       */
+/*   Updated: 2022/08/11 14:53:57 by chanhale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/RayCasting.h"
 
-int Render(t_map *map)
+int Render(t_game *game)
 {
-	
+	int		counter;
+	int		idx_y;
+	double	pix_multi;
+	void	*mlx_screen;
+	unsigned int	*screen;
+	unsigned int	*img;
+	int	a;
+	int b;
+	int c;
+
+	mlx_screen = mlx_new_image(game->mlx->mlx, TYPE_HOR_PIX, TYPE_VER_PIX);
+	screen = (unsigned int)mlx_get_data_addr(mlx_screen, &a, &b, &c);
+	counter = -1;
+	while (++counter < TYPE_HOR_PIX)
+	{
+		img = (unsigned int)mlx_get_data_addr(game->source->object, &a, &b, &c);
+		pix_multi = game->map->sight_safe_margin / game->source[counter].distance;
+		idx_y = -1;
+		while (++idx_y < (TYPE_VER_PIX + 1) / 2)
+		{
+			if (TYPE_OBJ_VER_PIX * pix_multi / 2 + idx_y >= TYPE_VER_PIX / 2)
+			{
+				screen[counter + TYPE_HOR_PIX * idx_y] = img[
+					(int)rint(((double)idx_y - (TYPE_VER_PIX - TYPE_OBJ_VER_PIX * pix_multi) / 2) / pix_multi) * TYPE_PIX_PER_OBJ 
+					+ game->source->object_pos
+					];
+				screen[counter + TYPE_HOR_PIX * (TYPE_VER_PIX - 1 - idx_y)] = img[
+					(TYPE_OBJ_VER_PIX - (int)rint(((double)idx_y - (TYPE_VER_PIX - TYPE_OBJ_VER_PIX * pix_multi) / 2) / pix_multi)) * TYPE_PIX_PER_OBJ // y축 
+					+ game->source->object_pos // x 축
+					];
+			}
+			else
+			{
+				screen[counter + TYPE_HOR_PIX * idx_y] = game->map->ceil_rgb;
+				screen[counter + TYPE_HOR_PIX * (TYPE_VER_PIX - idx_y)] = game->map->floor_rgb;
+			}
+		}
+	}
+	mlx_put_image_to_window(game->mlx->mlx, game->mlx->win, mlx_screen, 0, 0);
 }
 
 void ray_cast_calc(t_render_source *s , t_map *m, t_mlx *mlx, int px)
