@@ -7,6 +7,8 @@
 #include <stdio.h>
 
 # define TYPE_PI 3.14159265359
+# define TYPE_HOR_PIX 200
+# define TYPE_VER_PIX 100
 
 typedef	struct	s_str
 {
@@ -21,6 +23,17 @@ typedef struct s_vector
 	double	vision_theta;
 }	t_vector;
 
+typedef struct s_render_source
+{
+	void		*object;
+	int			object_pos;
+	double		distance;
+	int			render_screen_pos;
+	double		theta;
+	double		ob_x;
+	double		ob_y;
+} t_render_source;
+
 typedef struct s_map
 {
 	struct s_vector	player;
@@ -31,8 +44,8 @@ typedef struct s_map
 	char			*n_path;
 	char			*w_path;
 	char			*e_path;
-	unsigned int	floor_rgb;
-	unsigned int	ceil_rgb;
+	int				floor_rgb;
+	int				ceil_rgb;
 	double			sight_safe_margin;
 } t_map;
 
@@ -46,6 +59,23 @@ typedef	struct s_keys
 	int right;
 } t_keys;
 
+typedef struct s_mlx
+{
+	void *mlx;
+	void *win;
+	void *n_img;
+	void *s_img;
+	void *w_img;
+	void *e_img;
+} t_mlx;
+
+typedef struct s_game
+{
+	t_map *map;
+	t_keys *keys;
+	t_mlx *mlx;
+	t_render_source	*source;
+} t_game;
 
 int	parse_map(t_map *map, char *filename);
 
