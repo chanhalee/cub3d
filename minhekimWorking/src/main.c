@@ -63,6 +63,33 @@ void	exit_hook(void)
 	return exit_game();
 }
 
+int	init_img(t_game *game)
+{
+	char	*temp;
+	int		img_w;
+	int		img_h;
+
+	temp = game->map->n_path;
+	game->mlx->n_img = mlx_xpm_file_to_image(game->mlx->mlx, temp, &img_w, &img_h);
+	if (temp != NULL)
+		free(temp);
+	temp = game->map->s_path;
+	game->mlx->s_img = mlx_xpm_file_to_image(game->mlx->mlx, temp, &img_w, &img_h);
+	if (temp != NULL)
+		free(temp);
+	temp = game->map->w_path;
+	game->mlx->w_img = mlx_xpm_file_to_image(game->mlx->mlx, temp, &img_w, &img_h);
+	if (temp != NULL)
+		free(temp);
+	temp = game->map->e_path;
+	game->mlx->e_img = mlx_xpm_file_to_image(game->mlx->mlx, temp, &img_w, &img_h);
+	if (temp != NULL)
+		free(temp);
+	if (game->mlx->n_img && game->mlx->s_img && game->mlx->w_img && game->mlx->e_img)
+		return (0);
+	return (1);
+}
+
 int	main(int argc, char **argv)
 {
 	t_game	game;
@@ -86,7 +113,7 @@ int	main(int argc, char **argv)
 	game.mlx->win = mlx_new_window(game.mlx->mlx, TYPE_HOR_PIX, TYPE_VER_PIX, "cub3d");
 
 	//need to get image void* in game.mlx
-	//mlx_img_init(game.mlx);
+	init_img(&game);
 
 	game.keys = (t_keys *)malloc(sizeof(t_keys));
 	// need to pass arg(struct pointer) in place of null
