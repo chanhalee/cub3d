@@ -65,9 +65,7 @@ void	exit_hook(void)
 
 int	main(int argc, char **argv)
 {
-	void	*mlx;
-	void	*win;
-	t_map	map;
+	t_game	game;
 	t_keys	keys;
 
 	// parse map & check
@@ -76,20 +74,26 @@ int	main(int argc, char **argv)
 		printf("wrong number of arguments\n");
 		return (0);
 	}
-	if (parse_map(&map, argv[1]))
+	game.map = (t_map *)malloc(sizeof(t_map));
+	if (parse_map(game.map, argv[1]))
 	{
 		printf("map error\n");
 		return (0);
 	}
 	// creating window
-	mlx = mlx_init();
-	win = mlx_new_window(mlx, 500, 500, "cub3d");
+	game.mlx = (t_mlx *)malloc(sizeof(t_mlx));
+	game.mlx->mlx = mlx_init();
+	game.mlx->win = mlx_new_window(game.mlx->mlx, TYPE_HOR_PIX, TYPE_VER_PIX, "cub3d");
 
+	//need to get image void* in game.mlx
+	//mlx_img_init(game.mlx);
+
+	game.keys = (t_keys *)malloc(sizeof(t_keys));
 	// need to pass arg(struct pointer) in place of null
-	mlx_hook(win, X_EVENT_KEY_PRESS, 0, &key_press, &keys);
-	mlx_hook(win, X_EVENT_KEY_RELEASE, 0, &key_release, &keys);
-	mlx_hook(win, X_EVENT_EXIT, 0, &exit_hook, NULL);
-	mlx_loop(mlx);
+	mlx_hook(game.mlx->win, X_EVENT_KEY_PRESS, 0, &key_press, game.keys);
+	mlx_hook(game.mlx->win, X_EVENT_KEY_RELEASE, 0, &key_release, game.keys);
+	mlx_hook(game.mlx->win, X_EVENT_EXIT, 0, &exit_hook, NULL);
+	mlx_loop(game.mlx->mlx);
 
 	return (0);
 }
