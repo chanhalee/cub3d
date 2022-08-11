@@ -6,18 +6,56 @@
 /*   By: chanhale <chanhale@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:44:23 by chanhale          #+#    #+#             */
-/*   Updated: 2022/08/10 14:05:40 by chanhale         ###   ########.fr       */
+/*   Updated: 2022/08/11 14:53:57 by chanhale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/RayCasting.h"
 
-int Render(t_map *map)
+int Render(t_game *game)
 {
-	
+	int		counter;
+	int		idx_y;
+	double	pix_multi;
+	void	*mlx_screen;
+	unsigned int	*screen;
+	unsigned int	*img;
+	int	a;
+	int b;
+	int c;
+
+	mlx_screen = mlx_new_image(game->mlx->mlx, TYPE_HOR_PIX, TYPE_VER_PIX);
+	screen = (unsigned int)mlx_get_data_addr(mlx_screen, &a, &b, &c);
+	counter = -1;
+	while (++counter < TYPE_HOR_PIX)
+	{
+		img = (unsigned int)mlx_get_data_addr(game->source->object, &a, &b, &c);
+		pix_multi = game->map->sight_safe_margin / game->source[counter].distance;
+		idx_y = -1;
+		while (++idx_y < (TYPE_VER_PIX + 1) / 2)
+		{
+			if (TYPE_OBJ_VER_PIX * pix_multi / 2 + idx_y >= TYPE_VER_PIX / 2)
+			{
+				screen[counter + TYPE_HOR_PIX * idx_y] = img[
+					(int)rint(((double)idx_y - (TYPE_VER_PIX - TYPE_OBJ_VER_PIX * pix_multi) / 2) / pix_multi) * TYPE_PIX_PER_OBJ 
+					+ game->source->object_pos
+					];
+				screen[counter + TYPE_HOR_PIX * (TYPE_VER_PIX - 1 - idx_y)] = img[
+					(TYPE_OBJ_VER_PIX - (int)rint(((double)idx_y - (TYPE_VER_PIX - TYPE_OBJ_VER_PIX * pix_multi) / 2) / pix_multi)) * TYPE_PIX_PER_OBJ // y축 
+					+ game->source->object_pos // x 축
+					];
+			}
+			else
+			{
+				screen[counter + TYPE_HOR_PIX * idx_y] = game->map->ceil_rgb;
+				screen[counter + TYPE_HOR_PIX * (TYPE_VER_PIX - idx_y)] = game->map->floor_rgb;
+			}
+		}
+	}
+	mlx_put_image_to_window(game->mlx->mlx, game->mlx->win, mlx_screen, 0, 0);
 }
 
-void ray_cast_calc(t_render_source *s , t_map *m, int px)
+void ray_cast_calc(t_render_source *s , t_map *m, t_mlx *mlx, int px)
 {
 	double	theta;
 	int		bias_x;
@@ -53,7 +91,9 @@ void ray_cast_calc(t_render_source *s , t_map *m, int px)
 				s->object_pos += TYPE_PIX_PER_OBJ * -bias_x;
 				s->ob_x = m->player.pos_x + near_x;
 				s->ob_y = m->player.pos_y + near_x * tan(theta);
-				// 그림도 넣기
+				s->object = mlx->w_img;
+				if (bias_x == -1)
+					s->object = mlx->e_img;
 				return ;
 			}
 			near_x += 1 + bias_x * 2;
@@ -69,7 +109,9 @@ void ray_cast_calc(t_render_source *s , t_map *m, int px)
 				s->object_pos += TYPE_PIX_PER_OBJ * (1 + bias_y);
 				s->ob_y = m->player.pos_y + near_y;
 				s->ob_x = m->player.pos_x + near_y / tan(theta);
-				// 그림도 넣기
+				s->object = mlx->s_img;
+				if (bias_y == -1)
+					s->object = mlx->n_img;
 				return ;
 			}
 			near_y += 1 + bias_y * 2;

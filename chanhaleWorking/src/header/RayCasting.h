@@ -6,7 +6,7 @@
 /*   By: chanhale <chanhale@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:26:10 by chanhale          #+#    #+#             */
-/*   Updated: 2022/08/10 14:24:40 by chanhale         ###   ########.fr       */
+/*   Updated: 2022/08/11 13:07:15 by chanhale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # define TYPE_HOR_PIX 200
 # define TYPE_VER_PIX 100
 # define TYPE_PIX_PER_OBJ 50
+# define TYPE_OBJ_VER_PIX 50
 # define TYPE_PI 3.14159265359
 
 typedef struct s_vector
@@ -90,7 +91,7 @@ typedef struct s_game
 void	init_t_render_source(t_render_source *source);
 double	get_distance(double from_x, double from_y, double to_x, double to_y);
 char	*ft_strdup(const char *src);
-void	ray_cast_calc(t_render_source *s , t_map *m, int px);
+void	ray_cast_calc(t_render_source *s , t_map *m, t_mlx *mlx, int px);
 int		mlx_img_init(t_mlx *mlx);
 
 #endif
