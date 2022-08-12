@@ -1,4 +1,4 @@
-#include "minhee.h"
+#include "./header/cub3d.h"
 
 int	check_edges(t_map *map)
 {

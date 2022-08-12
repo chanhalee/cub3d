@@ -6,7 +6,7 @@
 /*   By: chanhale <chanhale@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:44:23 by chanhale          #+#    #+#             */
-/*   Updated: 2022/08/12 15:37:11 by chanhale         ###   ########.fr       */
+/*   Updated: 2022/08/12 23:22:43 by chanhale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,17 @@ int render(t_game *game)
 		idx_y = -1;
 		while (++idx_y < (TYPE_VER_PIX + 1) / 2)
 		{
-			if (TYPE_PIX_PER_OBJ * pix_multi + idx_y *2 >= TYPE_VER_PIX)
+			if (TYPE_PIX_PER_OBJ * pix_multi + idx_y *2 >= TYPE_VER_PIX )
 			{
 				screen[counter + TYPE_HOR_PIX * idx_y] =//img[game->source[counter].object_pos];
 				 img[
-					(int)((((double)idx_y - (TYPE_VER_PIX - TYPE_PIX_PER_OBJ * pix_multi) / 2) / pix_multi) * (double)game->mlx.img_ver_size / (double)TYPE_OBJ_VER_PIX) * game->mlx.img_hor_size
+					(int)(((idx_y - (TYPE_VER_PIX - TYPE_PIX_PER_OBJ * pix_multi) / 2) / pix_multi) * game->mlx.img_ver_size / TYPE_OBJ_VER_PIX) * game->mlx.img_hor_size
 					+ game->source[counter].object_pos
 					];
 				screen[counter + TYPE_HOR_PIX * (TYPE_VER_PIX - 1 - idx_y)] =// 0x00ffaacc;
 				img[
-					(game->mlx.img_ver_size - (int)((((double)idx_y - (TYPE_VER_PIX - TYPE_PIX_PER_OBJ * pix_multi) / 2) / pix_multi * (double)game->mlx.img_ver_size / (double)TYPE_OBJ_VER_PIX))) * game->mlx.img_hor_size // y축 
+					(game->mlx.img_ver_size - 
+					(int)(((idx_y - (TYPE_VER_PIX - TYPE_PIX_PER_OBJ * pix_multi) / 2) / pix_multi * game->mlx.img_ver_size / TYPE_OBJ_VER_PIX)) - 1) * game->mlx.img_hor_size // y축 
 					+ game->source[counter].object_pos // x 축
 					];
 			}
@@ -95,8 +96,8 @@ void ray_cast_calc(t_render_source *s , t_map *m, t_mlx *mlx, int px)
 			if (m->map[(int)(m->player.pos_y + near_y) - bias_y - 1][(int)(m->player.pos_x + near_x) + bias_x] == '1')
 			{
 				s->distance = fabs((near_x / cos(theta)) * sin(theta + TYPE_PI / 2.0 - m->player.vision_theta));
-				s->object_pos = (double)mlx->img_hor_size * ((near_y - fabs(near_x * tan(theta)) - bias_y));
-				if (bias_x != bias_y)
+				s->object_pos = fabs((double)mlx->img_hor_size * ((near_y - near_x * tan(theta) - bias_y)));
+				if (bias_x == -1)
 					s->object_pos *= -1;
 				s->object_pos += mlx->img_hor_size * -bias_x;
 				s->ob_x = m->player.pos_x + near_x;
@@ -104,6 +105,7 @@ void ray_cast_calc(t_render_source *s , t_map *m, t_mlx *mlx, int px)
 				s->object = mlx->w_img;
 				if (bias_x == -1)
 					s->object = mlx->e_img;
+				s->object_pos %= TYPE_PIX_PER_OBJ;
 				return ;
 			}
 			near_x += 1 + bias_x * 2;
@@ -113,8 +115,8 @@ void ray_cast_calc(t_render_source *s , t_map *m, t_mlx *mlx, int px)
 			if (m->map[(int)(m->player.pos_y + near_y) + bias_y][(int)(m->player.pos_x + near_x) - bias_x - 1] == '1')
 			{
 				s->distance = fabs((near_y / sin(theta)) * sin(theta + TYPE_PI / 2.0 - m->player.vision_theta));
-				s->object_pos = (double)mlx->img_hor_size * ((near_x - fabs(near_y / tan(theta)) - bias_x));
-				if (bias_x == bias_y)
+				s->object_pos = fabs((double)mlx->img_hor_size * ((near_x - near_y / tan(theta) - bias_x)));
+				if (bias_y != -1)
 					s->object_pos *= -1;
 				s->object_pos += mlx->img_hor_size * (1 + bias_y);
 				s->ob_y = m->player.pos_y + near_y;
@@ -122,6 +124,7 @@ void ray_cast_calc(t_render_source *s , t_map *m, t_mlx *mlx, int px)
 				s->object = mlx->s_img;
 				if (bias_y == -1)
 					s->object = mlx->n_img;
+				s->object_pos %= TYPE_PIX_PER_OBJ;
 				return ;
 			}
 			near_y += 1 + bias_y * 2;

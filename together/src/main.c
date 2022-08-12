@@ -115,7 +115,8 @@ int	main(int argc, char **argv)
 	//need to get image void* in game.mlx
  	game.map->sight_safe_margin = ((double)TYPE_HOR_PIX / 2.0) / tan(((double)TYPE_ANGLE / 360.0) * TYPE_PI);
  	printf("%lf\n", game.map->sight_safe_margin);
-
+	// game.map->ceil_rgb=0x0000ccff;
+	// game.map->floor_rgb=0x00001122;
 	render(&game);
 
 	// need to pass arg(struct pointer) in place of null
