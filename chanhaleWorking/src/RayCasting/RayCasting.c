@@ -6,7 +6,7 @@
 /*   By: chanhale <chanhale@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:44:23 by chanhale          #+#    #+#             */
-/*   Updated: 2022/08/12 10:03:12 by chanhale         ###   ########.fr       */
+/*   Updated: 2022/08/12 12:47:55 by chanhale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,11 @@ int render(t_game *game)
 	{
 		img = (unsigned int *)mlx_get_data_addr(game->source[counter].object, &a, &b, &c);
 		pix_multi = game->map->sight_safe_margin / (game->source[counter].distance * TYPE_PIX_PER_OBJ);
+		printf("%d : %lf\n",counter, pix_multi);
 		idx_y = -1;
 		while (++idx_y < (TYPE_VER_PIX + 1) / 2)
 		{
-			if (TYPE_PIX_PER_OBJ * pix_multi / 2 + idx_y >= TYPE_VER_PIX / 2)
+			if (TYPE_PIX_PER_OBJ * pix_multi + idx_y *2 >= TYPE_VER_PIX)
 			{
 				screen[counter + TYPE_HOR_PIX * idx_y] = img[
 					(int)((((double)idx_y - (TYPE_VER_PIX - TYPE_PIX_PER_OBJ * pix_multi) / 2) / pix_multi) * (double)game->mlx->img_ver_size / (double)TYPE_OBJ_VER_PIX) * game->mlx->img_hor_size
@@ -84,7 +85,7 @@ void ray_cast_calc(t_render_source *s , t_map *m, t_mlx *mlx, int px)
 		{
 			if (m->map[(int)(m->player.pos_y + near_y) - bias_y - 1][(int)(m->player.pos_x + near_x) + bias_x] == '1')
 			{
-				s->distance = fabs(near_x / cos(theta));
+				s->distance = fabs((near_x / cos(theta)) * sin(theta + TYPE_PI / 2.0 - m->player.vision_theta));
 				s->object_pos = (double)mlx->img_hor_size * ((near_y - fabs(near_x * tan(theta)) - bias_y));
 				if (bias_x != bias_y)
 					s->object_pos *= -1;
@@ -102,7 +103,7 @@ void ray_cast_calc(t_render_source *s , t_map *m, t_mlx *mlx, int px)
 		{
 			if (m->map[(int)(m->player.pos_y + near_y) + bias_y][(int)(m->player.pos_x + near_x) - bias_x - 1] == '1')
 			{
-				s->distance = fabs(near_y / sin(theta));
+				s->distance = fabs((near_y / sin(theta)) * sin(theta + TYPE_PI / 2.0 - m->player.vision_theta));
 				s->object_pos = (double)mlx->img_hor_size * ((near_x - fabs(near_y / tan(theta)) - bias_x));
 				if (bias_x == bias_y)
 					s->object_pos *= -1;

@@ -6,7 +6,7 @@
 /*   By: chanhale <chanhale@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:26:10 by chanhale          #+#    #+#             */
-/*   Updated: 2022/08/12 10:33:44 by chanhale         ###   ########.fr       */
+/*   Updated: 2022/08/12 11:26:30 by chanhale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # define TYPE_MAN_PLAYER_POS 0.1
 # define TYPE_MIN_DIS 25
 # define TYPE_HOR_PIX 800
-# define TYPE_VER_PIX 800
+# define TYPE_VER_PIX 400
 # define TYPE_PIX_PER_OBJ 50
 # define TYPE_OBJ_VER_PIX 50
 # define TYPE_PI 3.1415926535897932384626433
@@ -97,6 +97,6 @@ double	get_distance(double from_x, double from_y, double to_x, double to_y);
 char	*ft_strdup(const char *src);
 void	ray_cast_calc(t_render_source *s , t_map *m, t_mlx *mlx, int px);
 int		mlx_img_init(t_mlx *mlx);
-int render(t_game *game);
+int 	render(t_game *game);
 
 #endif
