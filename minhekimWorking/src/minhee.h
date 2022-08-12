@@ -9,6 +9,8 @@
 # define TYPE_PI 3.14159265359
 # define TYPE_HOR_PIX 200
 # define TYPE_VER_PIX 100
+# define TYPE_MAN_PLAYER_ANGLE 0.1
+# define TYPE_MAN_PLAYER_POS 0.1
 
 typedef	struct	s_str
 {
