@@ -244,6 +244,8 @@ int	check_filename(char *filename)
 	int	len;
 
 	len = ft_strlen(filename);
+	if (len < 4)
+		return (1);
 	if (filename[len - 4] == '.'
 			&& filename[len - 3] == 'c'
 			&& filename[len - 2] == 'u'
@@ -287,6 +289,8 @@ int	parse_map(t_map *map, char *filename)
 
 	if (get_texture(map, fd) != 0)
 	{
+		//need to free any allocated texture paths in map
+		free_texpath(map);
 		printf("texture error\n");
 		return (1);
 	}
@@ -297,9 +301,7 @@ int	parse_map(t_map *map, char *filename)
 	map->size_y = 0;
 	get_next_line(fd, &line);
 	while (line != NULL && ft_strlen(line) == 0)
-	{
 		x = get_next_line(fd, &line);
-	}
 	while (x)
 	{
 		byte_read = ft_strlen(line);
@@ -313,9 +315,10 @@ int	parse_map(t_map *map, char *filename)
 
 	//4. pad temp into map->map
 	map->map = (char **)malloc(sizeof(char *) * (map->size_x + 2));
-	if (!map->map)
+	if (map->map == NULL)
 	{
 		str_clear(&temp);
+		free_texpath(map);
 		return (1);
 	}
 	i = 0;
@@ -323,6 +326,11 @@ int	parse_map(t_map *map, char *filename)
 	while (i < map->size_x + 2)
 	{
 		map->map[i] = (char *)malloc(sizeof(char) * (map->size_y + 3));
+		if (map->map[i] == NULL)
+		{
+			free_map(map, i);
+			free_texpath(map);
+		}
 		if (i == 0 || i == map->size_x + 1)
 		{
 			ft_strfill(map->map[i], 0, map->size_y + 2, ' ');
@@ -344,13 +352,8 @@ int	parse_map(t_map *map, char *filename)
 	//5. check if map is valid -> if invalid, free map, texture paths and return 1
 	if (check_valid_map(map) != 0)
 	{
-		i = 0;
-		while (i < map->size_x + 2)
-		{
-			free(map->map[i]);
-			i++;
-		}
-		free(map->map);
+		free_texpath(map);
+		free_map(map, map->size_x + 2);
 		return (1);
 	}
 

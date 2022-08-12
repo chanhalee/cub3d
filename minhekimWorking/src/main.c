@@ -15,8 +15,11 @@
 #define KEY_LEFT	123
 #define	KEY_RIGHT	124
 
-int	exit_game(void) // <- need to free all heap memory: pass struct!
+int	exit_game(t_game *game)
 {
+	//need to free all memory in game struct: map, window
+	free_game_map(game);
+	free_game_mlx(game);
 	printf("bye!\n");
 	exit(0);
 	return (0);
@@ -38,14 +41,14 @@ int	key_press(int keycode, t_game *game)
 	else if (keycode == KEY_RIGHT)
 		game->map->player.vision_theta -= TYPE_MAN_PLAYER_ANGLE;
 	else if (keycode == KEY_ESC)
-		exit_game();
+		exit_game(game);
 	printf("x: %f y: %f angle: %f\n", game->map->player.pos_x, game->map->player.pos_y, game->map->player.vision_theta);
 	return (0);
 }
 
-int	exit_hook(void)
+int	exit_hook(t_game *game)
 {
-	return exit_game();
+	return exit_game(game);
 }
 
 int	init_img(t_game *game)
@@ -55,24 +58,24 @@ int	init_img(t_game *game)
 	int		img_h;
 
 	temp = game->map->n_path;
-	game->mlx->n_img = mlx_xpm_file_to_image(game->mlx->mlx, temp, &img_w, &img_h);
+	game->mlx.n_img = mlx_xpm_file_to_image(game->mlx.mlx, temp, &img_w, &img_h);
 	if (temp != NULL)
 		free(temp);
 	temp = game->map->s_path;
-	game->mlx->s_img = mlx_xpm_file_to_image(game->mlx->mlx, temp, &img_w, &img_h);
+	game->mlx.s_img = mlx_xpm_file_to_image(game->mlx.mlx, temp, &img_w, &img_h);
 	if (temp != NULL)
 		free(temp);
 	temp = game->map->w_path;
-	game->mlx->w_img = mlx_xpm_file_to_image(game->mlx->mlx, temp, &img_w, &img_h);
+	game->mlx.w_img = mlx_xpm_file_to_image(game->mlx.mlx, temp, &img_w, &img_h);
 	if (temp != NULL)
 		free(temp);
 	temp = game->map->e_path;
-	game->mlx->e_img = mlx_xpm_file_to_image(game->mlx->mlx, temp, &img_w, &img_h);
+	game->mlx.e_img = mlx_xpm_file_to_image(game->mlx.mlx, temp, &img_w, &img_h);
 	if (temp != NULL)
 		free(temp);
-	if (game->mlx->n_img && game->mlx->s_img && game->mlx->w_img && game->mlx->e_img)
-		return (0);
-	return (1);
+	if (game->mlx.n_img && game->mlx.s_img && game->mlx.w_img && game->mlx.e_img)
+		return (1);
+	return (0);
 }
 
 int	main(int argc, char **argv)
@@ -95,22 +98,22 @@ int	main(int argc, char **argv)
 		free(game.map);
 		return (0);
 	}
-	// creating window
-	game.mlx = (t_mlx *)malloc(sizeof(t_mlx));
-	if (game.mlx == NULL)
-		return (1);
-	game.mlx->mlx = mlx_init();
-	game.mlx->win = mlx_new_window(game.mlx->mlx, TYPE_HOR_PIX, TYPE_VER_PIX, "cub3d");
 
 	//need to get image void* in game.mlx
-	init_img(&game);
+	if (init_img(&game) != 0)
+	{
+		printf("image not initialized: file open error\n");
+		free_game_map(&game);	
+	}
 
-	game.keys = (t_keys *)malloc(sizeof(t_keys));
+	game.mlx.mlx = mlx_init();
+	game.mlx.win = mlx_new_window(game.mlx.mlx, TYPE_HOR_PIX, TYPE_VER_PIX, "cub3d");
+
 	// need to pass arg(struct pointer) in place of null
-	mlx_hook(game.mlx->win, X_EVENT_KEY_PRESS, 0, key_press, &game);
-	mlx_hook(game.mlx->win, X_EVENT_EXIT, 0, exit_hook, NULL);
+	mlx_hook(game.mlx.win, X_EVENT_KEY_PRESS, 0, key_press, &game);
+	mlx_hook(game.mlx.win, X_EVENT_EXIT, 0, exit_hook, &game);
 	//mlx_loop_hook(game.mlx->mlx, function goes here, game);
-	mlx_loop(game.mlx->mlx);
+	mlx_loop(game.mlx.mlx);
 
 	return (0);
 }
