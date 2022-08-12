@@ -6,6 +6,8 @@
 #include <fcntl.h>
 #include <stdio.h>
 
+#include "../mlx/mlx.h"
+
 # define TYPE_PI 3.14159265359
 # define TYPE_HOR_PIX 200
 # define TYPE_VER_PIX 100
@@ -75,7 +77,7 @@ typedef struct s_game
 {
 	t_map *map;
 	t_keys *keys;
-	t_mlx *mlx;
+	t_mlx mlx;
 	t_render_source	*source;
 } t_game;
 
@@ -108,5 +110,11 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 void	*ft_calloc(size_t nmemb, size_t size);
 unsigned int	word_cnt(char const *s, char c);
 void	*ft_memset(void *dest, int c, size_t n);
+
+//free.c
+void    free_texpath(t_map *map);
+void    free_map(t_map *map, int limit);
+void    free_game_map(t_game *game);
+void	free_game_mlx(t_game *game);
 
 #endif
