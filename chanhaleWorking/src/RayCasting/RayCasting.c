@@ -6,7 +6,7 @@
 /*   By: chanhale <chanhale@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:44:23 by chanhale          #+#    #+#             */
-/*   Updated: 2022/08/12 12:47:55 by chanhale         ###   ########.fr       */
+/*   Updated: 2022/08/12 15:00:37 by chanhale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int render(t_game *game)
 	{
 		img = (unsigned int *)mlx_get_data_addr(game->source[counter].object, &a, &b, &c);
 		pix_multi = game->map->sight_safe_margin / (game->source[counter].distance * TYPE_PIX_PER_OBJ);
-		printf("%d : %lf\n",counter, pix_multi);
 		idx_y = -1;
 		while (++idx_y < (TYPE_VER_PIX + 1) / 2)
 		{
@@ -104,6 +103,7 @@ void ray_cast_calc(t_render_source *s , t_map *m, t_mlx *mlx, int px)
 			if (m->map[(int)(m->player.pos_y + near_y) + bias_y][(int)(m->player.pos_x + near_x) - bias_x - 1] == '1')
 			{
 				s->distance = fabs((near_y / sin(theta)) * sin(theta + TYPE_PI / 2.0 - m->player.vision_theta));
+		printf("%lfLL %lf  1 %lf\n",theta + TYPE_PI / 2.0 - m->player.vision_theta, sin(theta + TYPE_PI / 2.0 - m->player.vision_theta), s->distance);
 				s->object_pos = (double)mlx->img_hor_size * ((near_x - fabs(near_y / tan(theta)) - bias_x));
 				if (bias_x == bias_y)
 					s->object_pos *= -1;

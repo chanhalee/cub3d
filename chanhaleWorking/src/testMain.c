@@ -6,7 +6,7 @@
 /*   By: chanhale <chanhale@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:25:34 by chanhale          #+#    #+#             */
-/*   Updated: 2022/08/12 12:48:23 by chanhale         ###   ########.fr       */
+/*   Updated: 2022/08/12 14:57:00 by chanhale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,8 @@ int main(void)
 	
 	game.map->size_x = 20;
 	game.map->size_y = 10;
-	game.map->player.vision_theta = TYPE_PI * 1.0 / 4.0;
+	game.map->player.vision_theta = TYPE_PI * 2.0 / 4.0;
 	game.map->sight_safe_margin = ((double)TYPE_HOR_PIX / 2.0) / tan(((double)TYPE_ANGLE / 360.0) * TYPE_PI);
-	printf("%lf\n", game.map->sight_safe_margin);
 	game.map->player.pos_x = 5.0;
 	game.map->player.pos_y = 2.0;
 	game.map->ceil_rgb = 0x00ff00ff;
@@ -71,8 +70,6 @@ int main(void)
 	{
 		ray_cast_calc(&(game.source[counter]), game.map, game.mlx, counter);
 	}
-	print_render_source(game.source);
-	print_map(game.map);
 	counter = -1;
 	while(++counter < game.map->size_y)
 	{
