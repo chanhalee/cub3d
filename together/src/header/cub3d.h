@@ -21,9 +21,9 @@
 # include "../../mlx/mlx.h"
 
 # define TYPE_ANGLE 90.0
-# define TYPE_MAN_PLAYER_ANGLE 0.1
-# define TYPE_MAN_PLAYER_POS 0.1
-# define TYPE_SAFE_DISTANCE 0.15
+# define TYPE_MAN_PLAYER_ANGLE 0.2
+# define TYPE_MAN_PLAYER_POS 0.2
+# define TYPE_SAFE_DISTANCE 0.25
 # define TYPE_MIN_DIS 25
 # define TYPE_HOR_PIX 800
 # define TYPE_VER_PIX 400
