@@ -33,11 +33,11 @@ int	get_user_vec(t_map *map, int i, int j)
 	if (cur == 'N')
 		map->player.vision_theta = TYPE_PI / 2;
 	else if (cur == 'S')
-		map->player.vision_theta = -(TYPE_PI / 2);
+		map->player.vision_theta = 3 * (TYPE_PI / 2);
 	else if (cur == 'W')
-		map->player.vision_theta = 0;
-	else if (cur == 'E')
 		map->player.vision_theta = TYPE_PI;
+	else if (cur == 'E')
+		map->player.vision_theta = 0;
 	else
 		return (1);
 	return (0);
@@ -58,10 +58,8 @@ int	check_user_pos(t_map *map)
 		{
 			cur = map->map[i][j];
 			if (cur != ' ' && cur != '1' && cur != '0')
-			{
 				if (map->player.pos_x != -1 || get_user_vec(map, i, j) != 0)
 					return (1);
-			}
 			j++;
 		}
 		i++;
@@ -110,41 +108,17 @@ int	check_valid_map(t_map *map)
 int	check_parsing(t_map *map)
 {
 	if (map->s_path == NULL)
-	{
-		//printf("SO");
-		//printf("\n");
 		return (1);
-	}
 	if (map->n_path == NULL)
-	{
-		//printf("NO");
-		//printf("\n");
 		return (1);
-	}
 	if (map->w_path == NULL)
-	{
-		//printf("WE");
-		//printf("\n");
 		return (1);
-	}
 	if (map->e_path == NULL)
-	{
-		//printf("EA");
-		//printf("\n");
 		return (1);
-	}
 	if (map->floor_rgb == 1)
-	{
-		//printf("F");
-		//printf("\n");
 		return (1);
-	}
 	if (map->ceil_rgb == 1)
-	{
-		//printf("C");
-		//printf("\n");
 		return (1);
-	}
 	return (0);
 }
 
@@ -175,7 +149,6 @@ int	ft_atoi(char **nptr)
 
 unsigned int	get_rgb(char *input)
 {
-	//atoi를 3번써서 하나씩 가져오고, 콤마인지 확인하고..?
 	int	r;
 	int	g;
 	int	b;
@@ -225,29 +198,17 @@ int	parse_value(t_map *map, char *line)
 		return (1);
 	token = ft_split(line, ' ');
 	if (equals(token[0], "NO") == 0)
-	{
 		map->n_path = ft_strdup(token[1]);
-	}
 	else if (equals(token[0], "SO") == 0)
-	{
 		map->s_path = ft_strdup(token[1]);
-	}
 	else if (equals(token[0], "WE") == 0)
-	{
 		map->w_path = ft_strdup(token[1]);
-	}
 	else if (equals(token[0], "EA") == 0)
-	{
 		map->e_path = ft_strdup(token[1]);
-	}
 	else if (equals(token[0], "F") == 0)
-	{
-		map->floor_rgb = get_rgb(token[1]); //return 1 on error
-	}
+		map->floor_rgb = get_rgb(token[1]);
 	else if (equals(token[0], "C") == 0)
-	{
 		map->ceil_rgb = get_rgb(token[1]);
-	}
 	else
 		ret = 1;
 	free(token[0]);
@@ -265,12 +226,10 @@ int	get_texture(t_map *map, int fd)
 	parsing = 1;
 	while (parsing && line != NULL)
 	{
-		if (ft_strlen(line) != 0) // line isn't empty
+		if (ft_strlen(line) != 0)
 		{
 			if (parse_value(map, line))
-			{
 				return (1);
-			}
 		}
 		parsing = check_parsing(map);
 		if (parsing != 0)
@@ -322,14 +281,13 @@ int	parse_map(t_map *map, char *filename)
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		return (1);
-	//set map memory to NULLs
 	init_map(map);
 
 	//2. get texture paths and floor/ceiling rgb -> if invalid, return 1
 
 	if (get_texture(map, fd) != 0)
 	{
-		printf("texture\n");
+		printf("texture error\n");
 		return (1);
 	}
 

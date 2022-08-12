@@ -5,7 +5,6 @@
 //used printf: replace with a custom error writing function
 
 #define X_EVENT_KEY_PRESS	2
-#define X_EVENT_KEY_RELEASE	3
 #define X_EVENT_EXIT		17
 
 #define	KEY_ESC	53
@@ -16,49 +15,35 @@
 #define KEY_LEFT	123
 #define	KEY_RIGHT	124
 
-void	exit_game(void) // <- need to free all heap memory: pass struct!
+int	exit_game(void) // <- need to free all heap memory: pass struct!
 {
 	printf("bye!\n");
 	exit(0);
+	return (0);
 }
 
-void	key_press(int keycode, t_keys *keys)
+int	key_press(int keycode, t_game *game)
 {
+	t_keys *keys = game->keys;
 	if (keycode == KEY_W)
-		keys->w = 1;
+		game->map->player.pos_y += TYPE_MAN_PLAYER_POS;
 	else if (keycode == KEY_S)
-		keys->s = 1;
+		game->map->player.pos_y -= TYPE_MAN_PLAYER_POS;
 	else if (keycode == KEY_A)
-		keys->a = 1;
+		game->map->player.pos_x -= TYPE_MAN_PLAYER_POS;
 	else if (keycode == KEY_D)
-		keys->d = 1;
+		game->map->player.pos_x += TYPE_MAN_PLAYER_POS;
 	else if (keycode == KEY_LEFT)
-		keys->left = 1;
+		game->map->player.vision_theta += TYPE_MAN_PLAYER_ANGLE;
 	else if (keycode == KEY_RIGHT)
-		keys->right = 1;
+		game->map->player.vision_theta -= TYPE_MAN_PLAYER_ANGLE;
 	else if (keycode == KEY_ESC)
 		exit_game();
+	printf("x: %f y: %f angle: %f\n", game->map->player.pos_x, game->map->player.pos_y, game->map->player.vision_theta);
+	return (0);
 }
 
-void	key_release(int keycode, t_keys *keys)
-{
-	if (keycode == KEY_W)
-		keys->w = 0;
-	else if (keycode == KEY_S)
-		keys->s = 0;
-	else if (keycode == KEY_A)
-		keys->a = 0;
-	else if (keycode == KEY_D)
-		keys->d = 0;
-	else if (keycode == KEY_LEFT)
-		keys->left = 0;
-	else if (keycode == KEY_RIGHT)
-		keys->right = 0;
-	else if (keycode == KEY_ESC)
-		exit_game();
-}
-
-void	exit_hook(void)
+int	exit_hook(void)
 {
 	return exit_game();
 }
@@ -102,13 +87,18 @@ int	main(int argc, char **argv)
 		return (0);
 	}
 	game.map = (t_map *)malloc(sizeof(t_map));
+	if (game.map == NULL)
+		return (1);
 	if (parse_map(game.map, argv[1]))
 	{
 		printf("map error\n");
+		free(game.map);
 		return (0);
 	}
 	// creating window
 	game.mlx = (t_mlx *)malloc(sizeof(t_mlx));
+	if (game.mlx == NULL)
+		return (1);
 	game.mlx->mlx = mlx_init();
 	game.mlx->win = mlx_new_window(game.mlx->mlx, TYPE_HOR_PIX, TYPE_VER_PIX, "cub3d");
 
@@ -117,9 +107,9 @@ int	main(int argc, char **argv)
 
 	game.keys = (t_keys *)malloc(sizeof(t_keys));
 	// need to pass arg(struct pointer) in place of null
-	mlx_hook(game.mlx->win, X_EVENT_KEY_PRESS, 0, &key_press, game.keys);
-	mlx_hook(game.mlx->win, X_EVENT_KEY_RELEASE, 0, &key_release, game.keys);
-	mlx_hook(game.mlx->win, X_EVENT_EXIT, 0, &exit_hook, NULL);
+	mlx_hook(game.mlx->win, X_EVENT_KEY_PRESS, 0, key_press, &game);
+	mlx_hook(game.mlx->win, X_EVENT_EXIT, 0, exit_hook, NULL);
+	//mlx_loop_hook(game.mlx->mlx, function goes here, game);
 	mlx_loop(game.mlx->mlx);
 
 	return (0);
