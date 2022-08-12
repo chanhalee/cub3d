@@ -166,7 +166,6 @@ unsigned int	get_rgb(char *input)
 	rgb = r;
 	rgb = (rgb << 8) + g;
 	rgb = (rgb << 8) + b;
-	rgb <<= 8;
 	return (rgb);
 }
 
