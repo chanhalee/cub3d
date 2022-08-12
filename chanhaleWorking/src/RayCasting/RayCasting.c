@@ -6,7 +6,7 @@
 /*   By: chanhale <chanhale@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:44:23 by chanhale          #+#    #+#             */
-/*   Updated: 2022/08/12 00:45:14 by chanhale         ###   ########.fr       */
+/*   Updated: 2022/08/12 10:03:12 by chanhale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int render(t_game *game)
 			else
 			{
 				screen[counter + TYPE_HOR_PIX * idx_y] = game->map->ceil_rgb;
-				screen[counter + TYPE_HOR_PIX * (TYPE_VER_PIX - idx_y)] = game->map->floor_rgb;
+				screen[counter + TYPE_HOR_PIX * (TYPE_VER_PIX - 1 - idx_y)] = game->map->floor_rgb;
 			}
 		}
 	}

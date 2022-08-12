@@ -6,7 +6,7 @@
 /*   By: chanhale <chanhale@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:26:10 by chanhale          #+#    #+#             */
-/*   Updated: 2022/08/12 00:49:53 by chanhale         ###   ########.fr       */
+/*   Updated: 2022/08/12 10:33:44 by chanhale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@
 # include <stdlib.h>
 # include "../../mlx/mlx.h"
 
-# define TYPE_ANGLE 60.0
+# define TYPE_ANGLE 90.0
+# define TYPE_MAN_PLAYER_ANGLE 0.1
+# define TYPE_MAN_PLAYER_POS 0.1
 # define TYPE_MIN_DIS 25
 # define TYPE_HOR_PIX 800
 # define TYPE_VER_PIX 800
