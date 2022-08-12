@@ -23,6 +23,7 @@
 # define TYPE_ANGLE 90.0
 # define TYPE_MAN_PLAYER_ANGLE 0.1
 # define TYPE_MAN_PLAYER_POS 0.1
+# define TYPE_SAFE_DISTANCE 0.15
 # define TYPE_MIN_DIS 25
 # define TYPE_HOR_PIX 800
 # define TYPE_VER_PIX 400
@@ -127,6 +128,7 @@ int						ft_strlen(char *str);
 void					ft_strcat(char *str1, char *str2, int start);
 char					*ft_strdup(char *str);
 int						get_len(char *str);
+void					keep_distance_with_wall(t_map *m);
 
 int	parse_map(t_map *map, char *filename);
 t_str	*str_add_back(t_str **str, char *content);

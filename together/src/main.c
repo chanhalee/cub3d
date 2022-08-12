@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "./header/cub3d.h"
+#include "./util/chanhale_util/do_not_submit/do_not_submit.h"
 //used printf: replace with a custom error writing function
 
 int	exit_game(t_game *game)
@@ -38,6 +39,7 @@ int	key_press(int keycode, t_game *game)
 		game->map->player.vision_theta -= TYPE_MAN_PLAYER_ANGLE;
 	else if (keycode == KEY_ESC)
 		exit_game(game);
+	keep_distance_with_wall(game->map);
 	printf("x: %f y: %f angle: %f\n", game->map->player.pos_x, game->map->player.pos_y, game->map->player.vision_theta);
 	render(game);
 	return (0);
@@ -114,7 +116,6 @@ int	main(int argc, char **argv)
 
 	//need to get image void* in game.mlx
  	game.map->sight_safe_margin = ((double)TYPE_HOR_PIX / 2.0) / tan(((double)TYPE_ANGLE / 360.0) * TYPE_PI);
- 	printf("%lf\n", game.map->sight_safe_margin);
 	// game.map->ceil_rgb=0x0000ccff;
 	// game.map->floor_rgb=0x00001122;
 	render(&game);

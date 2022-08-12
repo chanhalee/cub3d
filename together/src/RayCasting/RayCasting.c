@@ -6,7 +6,7 @@
 /*   By: chanhale <chanhale@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:44:23 by chanhale          #+#    #+#             */
-/*   Updated: 2022/08/12 23:22:43 by chanhale         ###   ########.fr       */
+/*   Updated: 2022/08/13 00:24:37 by chanhale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int render(t_game *game)
 	mlx_screen = mlx_new_image(game->mlx.mlx, TYPE_HOR_PIX, TYPE_VER_PIX);
 	screen = (unsigned int *)mlx_get_data_addr(mlx_screen, &a, &b, &c);
 	counter = -1;
-	printf("game->mlx.img_ver_size:%d\n",game->mlx.img_ver_size);
 	while (++counter < TYPE_HOR_PIX)
 	{
 		img = (unsigned int *)mlx_get_data_addr(game->source[counter].object, &a, &b, &c);

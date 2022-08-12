@@ -4,9 +4,9 @@ void	print_map(t_map *map)
 {
 	int		counter;
 
-	counter = map->size_y;
+	counter = -1;
 	printf("\n==========print_map==========\n");
-	while(--counter >= 0)
+	while(++counter < map->size_y)
 	{
 		printf("[%d] %s\n", counter, map->map[counter]);
 	}
