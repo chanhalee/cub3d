@@ -13,7 +13,7 @@ void    free_texpath(t_map *map)
     return ;
 }
 
-void    free_map(t_map *map, int limit)
+void    free_map(t_map *map, int limit) // double free
 {
     int i;
 
@@ -30,7 +30,7 @@ void    free_map(t_map *map, int limit)
 void    free_game_map(t_game *game)
 {
     free_texpath(game->map);
-    free_map(game->map, game->map->size_x + 2);
+    free_map(game->map, game->map->size_x);
     free(game->map);
     return ;
 }
