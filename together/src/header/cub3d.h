@@ -30,6 +30,17 @@
 # define TYPE_OBJ_VER_PIX 50
 # define TYPE_PI 3.1415926535897932384626433
 
+
+#define X_EVENT_KEY_PRESS	2
+#define X_EVENT_EXIT		17
+#define	KEY_ESC	53
+#define KEY_W	13
+#define KEY_A	0
+#define	KEY_S	1
+#define	KEY_D	2
+#define KEY_LEFT	123
+#define	KEY_RIGHT	124
+
 typedef	struct	s_str
 {
 	char	*content;

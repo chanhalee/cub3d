@@ -1,5 +1,4 @@
-
-#include "./header/cub3d.h"
+#include "minhee.h"
 
 int	check_edges(t_map *map)
 {
@@ -303,9 +302,19 @@ int	parse_map(t_map *map, char *filename)
 	temp = NULL;
 	map->size_x = 0;
 	map->size_y = 0;
-	get_next_line(fd, &line);
-	while (line != NULL && ft_strlen(line) == 0)
+	x = get_next_line(fd, &line);
+	while (x != 0 && ft_strlen(line) == 0)
+	{
+		printf("fetch next line\n");
 		x = get_next_line(fd, &line);
+	}
+	if (line == NULL)
+	{
+		printf("line is null\n");
+		free_texpath(map);
+		return (1);
+	}
+	printf("entering get map into temp\n");
 	while (x)
 	{
 		byte_read = ft_strlen(line);
@@ -357,6 +366,7 @@ int	parse_map(t_map *map, char *filename)
 	//5. check if map is valid -> if invalid, free map, texture paths and return 1
 	if (check_valid_map(map) != 0)
 	{
+		printf("failed valid check\n");
 		free_texpath(map);
 		free_map(map, map->size_x + 2);
 		return (1);
