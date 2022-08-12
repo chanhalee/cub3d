@@ -6,7 +6,7 @@
 /*   By: chanhale <chanhale@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:44:23 by chanhale          #+#    #+#             */
-/*   Updated: 2022/08/12 13:56:31 by chanhale         ###   ########.fr       */
+/*   Updated: 2022/08/12 15:37:11 by chanhale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,22 +33,23 @@ int render(t_game *game)
 	mlx_screen = mlx_new_image(game->mlx.mlx, TYPE_HOR_PIX, TYPE_VER_PIX);
 	screen = (unsigned int *)mlx_get_data_addr(mlx_screen, &a, &b, &c);
 	counter = -1;
-	printf("1\n");
+	printf("game->mlx.img_ver_size:%d\n",game->mlx.img_ver_size);
 	while (++counter < TYPE_HOR_PIX)
 	{
 		img = (unsigned int *)mlx_get_data_addr(game->source[counter].object, &a, &b, &c);
 		pix_multi = game->map->sight_safe_margin / (game->source[counter].distance * TYPE_PIX_PER_OBJ);
-		printf("%d : %lf\n",counter, pix_multi);
 		idx_y = -1;
 		while (++idx_y < (TYPE_VER_PIX + 1) / 2)
 		{
 			if (TYPE_PIX_PER_OBJ * pix_multi + idx_y *2 >= TYPE_VER_PIX)
 			{
-				screen[counter + TYPE_HOR_PIX * idx_y] = img[
+				screen[counter + TYPE_HOR_PIX * idx_y] =//img[game->source[counter].object_pos];
+				 img[
 					(int)((((double)idx_y - (TYPE_VER_PIX - TYPE_PIX_PER_OBJ * pix_multi) / 2) / pix_multi) * (double)game->mlx.img_ver_size / (double)TYPE_OBJ_VER_PIX) * game->mlx.img_hor_size
 					+ game->source[counter].object_pos
 					];
-				screen[counter + TYPE_HOR_PIX * (TYPE_VER_PIX - 1 - idx_y)] = img[
+				screen[counter + TYPE_HOR_PIX * (TYPE_VER_PIX - 1 - idx_y)] =// 0x00ffaacc;
+				img[
 					(game->mlx.img_ver_size - (int)((((double)idx_y - (TYPE_VER_PIX - TYPE_PIX_PER_OBJ * pix_multi) / 2) / pix_multi * (double)game->mlx.img_ver_size / (double)TYPE_OBJ_VER_PIX))) * game->mlx.img_hor_size // y축 
 					+ game->source[counter].object_pos // x 축
 					];
@@ -84,6 +85,7 @@ void ray_cast_calc(t_render_source *s , t_map *m, t_mlx *mlx, int px)
 	bias_y = 0;
 	if (theta >  TYPE_PI)
 		bias_y = -1; // y축 음의 방향으로 ray 가 발사될 경우
+
 	near_x = (ceil(m->player.pos_x) - m->player.pos_x + bias_x);
 	near_y = (ceil(m->player.pos_y) - m->player.pos_y + bias_y);
 	while (1)

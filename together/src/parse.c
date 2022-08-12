@@ -1,3 +1,4 @@
+
 #include "./header/cub3d.h"
 
 int	check_edges(t_map *map)
@@ -27,8 +28,8 @@ int	get_user_vec(t_map *map, int i, int j)
 {
 	char	cur;
 
-	map->player.pos_x = (double)i;
-	map->player.pos_y = (double)j;
+	map->player.pos_y = (double)i + 0.5;
+	map->player.pos_x = (double)j + 0.5;
 	cur = map->map[i][j];
 	if (cur == 'N')
 		map->player.vision_theta = TYPE_PI / 2;
@@ -233,7 +234,10 @@ int	get_texture(t_map *map, int fd)
 		}
 		parsing = check_parsing(map);
 		if (parsing != 0)
+		{
+			free(line);
 			get_next_line(fd, &line);
+		}
 	}
 	free(line);
 	return (0);
@@ -309,6 +313,7 @@ int	parse_map(t_map *map, char *filename)
 			map->size_y = byte_read;
 		(map->size_x)++;
 		str_add_back(&temp, ft_strdup(line));
+		free(line);
 		x = get_next_line(fd, &line);
 	}
 	close(fd);
