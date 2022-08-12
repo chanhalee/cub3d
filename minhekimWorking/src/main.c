@@ -27,7 +27,6 @@ int	exit_game(t_game *game)
 
 int	key_press(int keycode, t_game *game)
 {
-	t_keys *keys = game->keys;
 	if (keycode == KEY_W)
 		game->map->player.pos_y += TYPE_MAN_PLAYER_POS;
 	else if (keycode == KEY_S)
@@ -59,34 +58,31 @@ int	init_img(t_game *game)
 
 	temp = game->map->n_path;
 	game->mlx.n_img = mlx_xpm_file_to_image(game->mlx.mlx, temp, &img_w, &img_h);
-	if (temp != NULL)
-		free(temp);
 	temp = game->map->s_path;
 	game->mlx.s_img = mlx_xpm_file_to_image(game->mlx.mlx, temp, &img_w, &img_h);
-	if (temp != NULL)
-		free(temp);
 	temp = game->map->w_path;
 	game->mlx.w_img = mlx_xpm_file_to_image(game->mlx.mlx, temp, &img_w, &img_h);
-	if (temp != NULL)
-		free(temp);
 	temp = game->map->e_path;
 	game->mlx.e_img = mlx_xpm_file_to_image(game->mlx.mlx, temp, &img_w, &img_h);
-	if (temp != NULL)
-		free(temp);
 	if (game->mlx.n_img && game->mlx.s_img && game->mlx.w_img && game->mlx.e_img)
-		return (1);
-	return (0);
+		return (0);
+	return (1);
+}
+
+void	leakscheck()
+{
+	system("leaks ./a.out");
 }
 
 int	main(int argc, char **argv)
 {
+	//atexit(leakscheck);
 	t_game	game;
-	t_keys	keys;
 
 	// parse map & check
 	if (argc != 2)
 	{
-		printf("wrong number of arguments\n");
+		printf("wrong number of argument\n");
 		return (0);
 	}
 	game.map = (t_map *)malloc(sizeof(t_map));
@@ -98,16 +94,17 @@ int	main(int argc, char **argv)
 		free(game.map);
 		return (0);
 	}
+	game.mlx.mlx = mlx_init();
+	game.mlx.win = mlx_new_window(game.mlx.mlx, TYPE_HOR_PIX, TYPE_VER_PIX, "cub3d");
 
 	//need to get image void* in game.mlx
 	if (init_img(&game) != 0)
 	{
 		printf("image not initialized: file open error\n");
-		free_game_map(&game);	
+		free_game_map(&game);
+		mlx_destroy_window(game.mlx.mlx, game.mlx.win);
+		return (1);
 	}
-
-	game.mlx.mlx = mlx_init();
-	game.mlx.win = mlx_new_window(game.mlx.mlx, TYPE_HOR_PIX, TYPE_VER_PIX, "cub3d");
 
 	// need to pass arg(struct pointer) in place of null
 	mlx_hook(game.mlx.win, X_EVENT_KEY_PRESS, 0, key_press, &game);
