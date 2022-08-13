@@ -6,7 +6,7 @@
 /*   By: chanhale <chanhale@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 19:54:32 by chanhale          #+#    #+#             */
-/*   Updated: 2022/08/13 00:23:28 by chanhale         ###   ########.fr       */
+/*   Updated: 2022/08/13 11:57:49 by chanhale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,8 @@ void	keep_distance_with_wall(t_map *m)
 	if (m->map[int_y + 1][int_x] == '1')
 		if (exp_y > (1.0 - TYPE_SAFE_DISTANCE))
 			m->player.pos_y = int_y + 1 - TYPE_SAFE_DISTANCE;
+	if (m->player.vision_theta < 0)
+		m->player.vision_theta += 2 * TYPE_PI;
+	if (m->player.vision_theta > 2 * TYPE_PI)
+		m->player.vision_theta -= 2 * TYPE_PI;
 }

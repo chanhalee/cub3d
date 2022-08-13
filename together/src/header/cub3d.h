@@ -30,21 +30,19 @@
 # define TYPE_PIX_PER_OBJ 50
 # define TYPE_OBJ_VER_PIX 50
 # define TYPE_PI 3.1415926535897932384626433
+# define X_EVENT_KEY_PRESS	2
+# define X_EVENT_EXIT		17
+# define KEY_ESC	53
+# define KEY_W	13
+# define KEY_A	0
+# define KEY_S	1
+# define KEY_D	2
+# define KEY_LEFT	123
+# define KEY_RIGHT	124
 
-
-#define X_EVENT_KEY_PRESS	2
-#define X_EVENT_EXIT		17
-#define	KEY_ESC	53
-#define KEY_W	13
-#define KEY_A	0
-#define	KEY_S	1
-#define	KEY_D	2
-#define KEY_LEFT	123
-#define	KEY_RIGHT	124
-
-typedef	struct	s_str
+typedef struct s_str
 {
-	char	*content;
+	char			*content;
 	struct s_str	*next;
 }	t_str;
 
@@ -61,10 +59,7 @@ typedef struct s_render_source
 	int			object_pos;
 	double		distance;
 	int			render_screen_pos;
-	double		theta;
-	double		ob_x;
-	double		ob_y;
-} t_render_source;
+}	t_render_source;
 
 typedef struct s_map
 {
@@ -79,17 +74,17 @@ typedef struct s_map
 	int				floor_rgb;
 	int				ceil_rgb;
 	double			sight_safe_margin;
-} t_map;
+}	t_map;
 
-typedef	struct s_keys
+typedef struct s_keys
 {
 	int	w;
 	int	a;
 	int	s;
 	int	d;
 	int	left;
-	int right;
-} t_keys;
+	int	right;
+}	t_keys;
 
 typedef struct s_mlx
 {
@@ -101,20 +96,25 @@ typedef struct s_mlx
 	void	*e_img;
 	int		img_ver_size;
 	int		img_hor_size;
-} t_mlx;
+}	t_mlx;
 
 typedef struct s_game
 {
-	t_map *map;
-	t_keys *keys;
-	t_mlx	mlx;
+	t_map			*map;
+	t_keys			*keys;
+	t_mlx			mlx;
 	t_render_source	*source;
-} t_game;
+}	t_game;
 
-void	init_t_render_source(t_render_source *source);
-double	get_distance(double from_x, double from_y, double to_x, double to_y);
-int		mlx_img_init(t_mlx *mlx);
-int 	render(t_game *game);
+void					init_t_render_source(t_render_source *source);
+double					get_distance(double from_x, double from_y,
+							double to_x, double to_y);
+int						mlx_img_init(t_mlx *mlx);
+int						render(t_game *game);
+void					keep_distance_with_wall(t_map *m);
+int						init_chanhale_assets(t_game *game);
+void					init_game(t_game *game);
+void					free_chanhale_assets(t_game *game);
 int						get_next_line(int fd, char **line);
 int						cat_buf(char **line, char *buf, int bytes_read);
 int						save_leftover(char *buf, char **saved);
@@ -128,25 +128,24 @@ int						ft_strlen(char *str);
 void					ft_strcat(char *str1, char *str2, int start);
 char					*ft_strdup(char *str);
 int						get_len(char *str);
-void					keep_distance_with_wall(t_map *m);
 
-int	parse_map(t_map *map, char *filename);
-t_str	*str_add_back(t_str **str, char *content);
-int	str_clear(t_str **list);
+int						parse_map(t_map *map, char *filename);
+t_str					*str_add_back(t_str **str, char *content);
+int						str_clear(t_str **list);
 
-void	ft_strfill(char *buf, int start, int end, char c);
-void	ft_strcpy(char *dest, char *src);
+void					ft_strfill(char *buf, int start, int end, char c);
+void					ft_strcpy(char *dest, char *src);
 
 //ft_split
 char					**ft_split(char const *s, char c);
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
-void	*ft_calloc(size_t nmemb, size_t size);
-unsigned int	word_cnt(char const *s, char c);
-void	*ft_memset(void *dest, int c, size_t n);
+size_t					ft_strlcpy(char *dst, const char *src, size_t dstsize);
+void					*ft_calloc(size_t nmemb, size_t size);
+unsigned int			word_cnt(char const *s, char c);
+void					*ft_memset(void *dest, int c, size_t n);
 //free.c
-void    free_texpath(t_map *map);
-void    free_map(t_map *map, int limit);
-void    free_game_map(t_game *game);
-void	free_game_mlx(t_game *game);
+void					free_texpath(t_map *map);
+void					free_map(t_map *map, int limit);
+void					free_game_map(t_game *game);
+void					free_game_mlx(t_game *game);
 
 #endif

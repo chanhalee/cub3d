@@ -1,21 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_t_render_source.c                             :+:      :+:    :+:   */
+/*   simple_mlx_get_data_addr.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chanhale <chanhale@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/09 20:11:54 by chanhale          #+#    #+#             */
-/*   Updated: 2022/08/13 11:57:56 by chanhale         ###   ########.fr       */
+/*   Created: 2022/08/13 13:04:06 by chanhale          #+#    #+#             */
+/*   Updated: 2022/08/13 13:08:33 by chanhale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../header/cub3d.h"
+#include "../../header/cub3d.h"
 
-void	init_t_render_source(t_render_source *source)
+unsigned int	*simple_mlx_get_data_addr(void *img_ptr)
 {
-	source->distance = 0;
-	source->object = NULL;
-	source->object_pos = 0;
-	source->render_screen_pos = 0;
+	unsigned int	*ret;
+	int				a;
+	int				b;
+	int				c;
+
+	if (img_ptr == NULL)
+		return (NULL);
+	ret = (unsigned int *)mlx_get_data_addr(img_ptr, &a, &b, &c);
+	return (ret);
 }

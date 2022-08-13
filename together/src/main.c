@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "./header/cub3d.h"
-#include "./util/chanhale_util/do_not_submit/do_not_submit.h"
 //used printf: replace with a custom error writing function
 
 int	exit_game(t_game *game)
@@ -10,6 +9,7 @@ int	exit_game(t_game *game)
 	//need to free all memory in game struct: map, window
 	free_game_map(game);
 	free_game_mlx(game);
+	free_chanhale_assets(game);
 	printf("bye!\n");
 	exit(0);
 	return (0);
@@ -41,7 +41,8 @@ int	key_press(int keycode, t_game *game)
 		exit_game(game);
 	keep_distance_with_wall(game->map);
 	printf("x: %f y: %f angle: %f\n", game->map->player.pos_x, game->map->player.pos_y, game->map->player.vision_theta);
-	render(game);
+	if (render(game) == 1)
+		;//render fail shall we exit_game? -chanhale added-
 	return (0);
 }
 
@@ -73,7 +74,7 @@ int	init_img(t_game *game)
 
 void	leakscheck()
 {
-	system("leaks ./a.out");
+	system("leaks cub3d");
 }
 
 int	main(int argc, char **argv)
@@ -81,6 +82,9 @@ int	main(int argc, char **argv)
 	//atexit(leakscheck);
 	t_game	game;
 	int counter;
+
+	//cleans game with NULL -chanhale added
+	init_game(&game);
 
 	// parse map & check
 	if (argc != 2)
@@ -108,16 +112,8 @@ int	main(int argc, char **argv)
 		mlx_destroy_window(game.mlx.mlx, game.mlx.win);
 		return (1);
 	}
-	
-	game.source = (t_render_source *)malloc(sizeof(t_render_source) * TYPE_HOR_PIX);
-	counter = -1;
-	while(++counter < TYPE_HOR_PIX)
-		init_t_render_source(&(game.source[counter]));
-
-	//need to get image void* in game.mlx
- 	game.map->sight_safe_margin = ((double)TYPE_HOR_PIX / 2.0) / tan(((double)TYPE_ANGLE / 360.0) * TYPE_PI);
-	// game.map->ceil_rgb=0x0000ccff;
-	// game.map->floor_rgb=0x00001122;
+	if (init_chanhale_assets(&game))
+		exit_game(&game);
 	render(&game);
 
 	// need to pass arg(struct pointer) in place of null
@@ -125,6 +121,5 @@ int	main(int argc, char **argv)
 	mlx_hook(game.mlx.win, X_EVENT_EXIT, 0, exit_hook, &game);
 	//mlx_loop_hook(game.mlx->mlx, function goes here, game);
 	mlx_loop(game.mlx.mlx);
-
 	return (0);
 }

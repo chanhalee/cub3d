@@ -1,21 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_t_render_source.c                             :+:      :+:    :+:   */
+/*   init_game.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chanhale <chanhale@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/09 20:11:54 by chanhale          #+#    #+#             */
-/*   Updated: 2022/08/13 11:57:56 by chanhale         ###   ########.fr       */
+/*   Created: 2022/08/13 12:40:47 by chanhale          #+#    #+#             */
+/*   Updated: 2022/08/13 12:46:52 by chanhale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../header/cub3d.h"
 
-void	init_t_render_source(t_render_source *source)
+void	init_game(t_game *game)
 {
-	source->distance = 0;
-	source->object = NULL;
-	source->object_pos = 0;
-	source->render_screen_pos = 0;
+	game->keys = NULL;
+	game->map = NULL;
+	game->mlx.n_img = NULL;
+	game->mlx.w_img = NULL;
+	game->mlx.s_img = NULL;
+	game->mlx.e_img = NULL;
+	game->mlx.img_hor_size = 0;
+	game->mlx.img_ver_size = 0;
+	game->mlx.mlx = NULL;
+	game->mlx.win = NULL;
+	game->source = NULL;
 }

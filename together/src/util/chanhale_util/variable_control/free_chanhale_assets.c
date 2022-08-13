@@ -1,21 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_t_render_source.c                             :+:      :+:    :+:   */
+/*   free_chanhale_assets.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chanhale <chanhale@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/09 20:11:54 by chanhale          #+#    #+#             */
-/*   Updated: 2022/08/13 11:57:56 by chanhale         ###   ########.fr       */
+/*   Created: 2022/08/13 12:21:59 by chanhale          #+#    #+#             */
+/*   Updated: 2022/08/13 13:15:22 by chanhale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../header/cub3d.h"
 
-void	init_t_render_source(t_render_source *source)
+void	free_chanhale_assets(t_game *game)
 {
-	source->distance = 0;
-	source->object = NULL;
-	source->object_pos = 0;
-	source->render_screen_pos = 0;
+	if (game->source != NULL)
+		free(game->source);
+	game->source = NULL;
 }
