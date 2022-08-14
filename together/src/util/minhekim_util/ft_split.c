@@ -6,7 +6,7 @@
 /*   By: chanhale <chanhale@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/16 20:26:11 by minhekim          #+#    #+#             */
-/*   Updated: 2022/08/12 13:12:47 by chanhale         ###   ########.fr       */
+/*   Updated: 2022/08/14 21:09:20 by minhekim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static	unsigned int	letter_cnt(char const *s, char c)
 	return (ret);
 }
 
-static	char			**ft_error(char **table)
+static	char	**ft_error(char **table)
 {
 	unsigned int	i;
 
@@ -55,7 +55,7 @@ static	char			**ft_error(char **table)
 	return (0);
 }
 
-char					**ft_split(char const *s, char c)
+char	**ft_split(char const *s, char c)
 {
 	char			**table;
 	unsigned int	wc;
@@ -65,7 +65,8 @@ char					**ft_split(char const *s, char c)
 	if (!s)
 		return (0);
 	wc = word_cnt(s, c);
-	if (!(table = (char **)ft_calloc(wc + 1, sizeof(char *))))
+	table = (char **)ft_calloc(wc + 1, sizeof(char *));
+	if (!table)
 		return (0);
 	i = 0;
 	while (i++ < wc)
@@ -73,7 +74,8 @@ char					**ft_split(char const *s, char c)
 		while (*s && *s == c)
 			s++;
 		lc = letter_cnt(s, c);
-		if (!(table[i - 1] = (char *)ft_calloc(lc + 1, sizeof(char))))
+		table[i - 1] = (char *)ft_calloc(lc + 1, sizeof(char));
+		if (!(table[i - 1]))
 			return (ft_error(table));
 		ft_strlcpy(table[i - 1], s, lc + 1);
 		s += lc;

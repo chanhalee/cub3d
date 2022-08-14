@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                       :+:      :+:    :+:   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chanhale <chanhale@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:26:10 by chanhale          #+#    #+#             */
-/*   Updated: 2022/08/12 11:26:30 by chanhale         ###   ########.fr       */
+/*   Updated: 2022/08/14 21:34:39 by minhekim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,11 @@ int						get_len(char *str);
 int						parse_map(t_map *map, char *filename);
 t_str					*str_add_back(t_str **str, char *content);
 int						str_clear(t_str **list);
+int						equals(char *s1, char *s2);
+int						get_texture(t_map *map, int fd);
+int						check_valid_map(t_map *map);
+int						check_filename(char *filename);
+void					init_map(t_map *map);
 
 void					ft_strfill(char *buf, int start, int end, char c);
 void					ft_strcpy(char *dest, char *src);
@@ -145,6 +150,7 @@ void					*ft_memset(void *dest, int c, size_t n);
 //free.c
 void					free_texpath(t_map *map);
 void					free_map(t_map *map, int limit);
+void					free_map_all(t_map *map, int limit);
 void					free_game_map(t_game *game);
 void					free_game_mlx(t_game *game);
 
