@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_valid_map.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minhekim <minhekim@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chanhale <chanhale@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 21:01:06 by minhekim          #+#    #+#             */
-/*   Updated: 2022/08/14 21:51:36 by minhekim         ###   ########.fr       */
+/*   Updated: 2022/08/14 23:11:41 by chanhale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,12 +85,8 @@ int	check_user_pos(t_map *map)
 
 int	check_surrounds(t_map *map, int i, int j)
 {
-	if (!(map->map[i + 1][j - 1] == ' ' || map->map[i + 1][j - 1] == '1')
-			|| !(map->map[i + 1][j] == ' ' || map->map[i + 1][j] == '1')
-			|| !(map->map[i + 1][j + 1] == ' ' || map->map[i + 1][j + 1] == '1')
-			|| !(map->map[i - 1][j - 1] == ' ' || map->map[i - 1][j - 1] == '1')
+	if (!(map->map[i + 1][j] == ' ' || map->map[i + 1][j] == '1')
 			|| !(map->map[i - 1][j] == ' ' || map->map[i - 1][j] == '1')
-			|| !(map->map[i - 1][j + 1] == ' ' || map->map[i - 1][j + 1] == '1')
 			|| !(map->map[i][j + 1] == ' ' || map->map[i][j + 1] == '1')
 			|| !(map->map[i][j - 1] == ' ' || map->map[i][j - 1] == '1'))
 		return (1);
