@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minhekim <minhekim@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chanhale <chanhale@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 21:49:26 by minhekim          #+#    #+#             */
-/*   Updated: 2022/08/14 22:01:06 by minhekim         ###   ########.fr       */
+/*   Updated: 2022/08/14 22:14:14 by chanhale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	*invalid_file(int fd, t_map *map)
 t_str	*buffer_map(int fd, t_map *map)
 {
 	int		byte_read;
-	t_str	*cur;
 	t_str	*temp;
 	char	*line;
 	int		x;
