@@ -6,7 +6,7 @@
 /*   By: minhekim <minhekim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 21:49:26 by minhekim          #+#    #+#             */
-/*   Updated: 2022/08/14 22:01:06 by minhekim         ###   ########.fr       */
+/*   Updated: 2022/08/14 22:04:06 by minhekim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ t_str	*buffer_map(int fd, t_map *map)
 t_str	*convert_line(t_map *map, t_str *cur, int i)
 {
 	int	len;
-
 
 	if (i == 0 || i == map->size_x + 1)
 		ft_strfill(map->map[i], 0, map->size_y + 2, ' ');
