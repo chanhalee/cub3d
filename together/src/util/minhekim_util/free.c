@@ -6,7 +6,7 @@
 /*   By: minhekim <minhekim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 21:00:40 by minhekim          #+#    #+#             */
-/*   Updated: 2022/08/14 21:52:24 by minhekim         ###   ########.fr       */
+/*   Updated: 2022/08/15 01:51:02 by minhekim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,14 @@ void	free_game_map(t_game *game)
 
 void	free_game_mlx(t_game *game)
 {
-	mlx_destroy_window(game->mlx.mlx, game->mlx.win);
-	mlx_destroy_image(game->mlx.mlx, game->mlx.n_img);
-	mlx_destroy_image(game->mlx.mlx, game->mlx.s_img);
-	mlx_destroy_image(game->mlx.mlx, game->mlx.e_img);
-	mlx_destroy_image(game->mlx.mlx, game->mlx.w_img);
+	if (game->mlx.win != NULL)
+		mlx_destroy_window(game->mlx.mlx, game->mlx.win);
+	if (game->mlx.n_img != NULL)
+		mlx_destroy_image(game->mlx.mlx, game->mlx.n_img);
+	if (game->mlx.s_img != NULL)
+		mlx_destroy_image(game->mlx.mlx, game->mlx.s_img);
+	if (game->mlx.e_img != NULL)
+		mlx_destroy_image(game->mlx.mlx, game->mlx.e_img);
+	if (game->mlx.w_img != NULL)
+		mlx_destroy_image(game->mlx.mlx, game->mlx.w_img);
 }

@@ -6,7 +6,7 @@
 /*   By: minhekim <minhekim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 22:11:31 by minhekim          #+#    #+#             */
-/*   Updated: 2022/08/15 01:32:55 by minhekim         ###   ########.fr       */
+/*   Updated: 2022/08/15 01:54:02 by minhekim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,6 @@ int	init_img(t_game *game)
 	if (m->n_img && m->s_img && m->w_img && m->e_img)
 		return (0);
 	free_game_map(game);
-	mlx_destroy_window(game->mlx.mlx, game->mlx.win);
-	return (img_error());
+	free_game_mlx(game);
+	exit(img_error());
 }
