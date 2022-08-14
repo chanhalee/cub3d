@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chanhale <chanhale@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: minhekim <minhekim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 21:49:26 by minhekim          #+#    #+#             */
-/*   Updated: 2022/08/14 22:24:26 by chanhale         ###   ########.fr       */
+/*   Updated: 2022/08/14 22:49:32 by minhekim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	*invalid_file(int fd, t_map *map)
 
 t_str	*buffer_map(int fd, t_map *map)
 {
-	int		byte_read;
 	t_str	*temp;
 	char	*line;
 	int		x;
@@ -29,14 +28,16 @@ t_str	*buffer_map(int fd, t_map *map)
 	temp = NULL;
 	x = get_next_line(fd, &line);
 	while (x != 0 && ft_strlen(line) == 0)
+	{
+		free(line);
 		x = get_next_line(fd, &line);
+	}
 	if (line == NULL)
 		return (invalid_file(fd, map));
 	while (x)
 	{
-		byte_read = ft_strlen(line);
-		if (byte_read > map->size_y)
-			map->size_y = byte_read;
+		if (ft_strlen(line) > map->size_y)
+			map->size_y = ft_strlen(line);
 		(map->size_x)++;
 		str_add_back(&temp, ft_strdup(line));
 		free(line);

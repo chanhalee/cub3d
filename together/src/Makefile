@@ -18,11 +18,14 @@ SRCS	= 	./main.c \
 			util/minhekim_util/get_next_line2.c \
 			util/minhekim_util/str.c \
 			util/minhekim_util/string_utils.c \
+			util/minhekim_util/init_img.c \
 			ray_casting/ray_casting.c \
 			parse/check_valid_map.c \
 			parse/get_texture.c \
 			parse/parse_utils.c \
-			parse/parse.c
+			parse/parse.c \
+			hooks/exit_hook.c \
+			hooks/key_hook.c
 
 
 OBJS	= $(SRCS:.c=.o)

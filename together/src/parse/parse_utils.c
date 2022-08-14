@@ -6,7 +6,7 @@
 /*   By: minhekim <minhekim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 21:00:57 by minhekim          #+#    #+#             */
-/*   Updated: 2022/08/14 21:51:57 by minhekim         ###   ########.fr       */
+/*   Updated: 2022/08/14 22:16:24 by minhekim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int	check_filename(char *filename)
 	len = ft_strlen(filename);
 	if (len < 4)
 		return (1);
-	printf("[%s]\n", filename + len - 4);
 	if (equals(filename + len - 4, ".cub") == 0)
 		return (0);
 	return (1);
