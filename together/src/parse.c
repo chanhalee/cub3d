@@ -324,6 +324,7 @@ int	parse_map(t_map *map, char *filename)
 		free(line);
 		x = get_next_line(fd, &line);
 	}
+	free(line);
 	close(fd);
 
 	//4. pad temp into map->map

@@ -79,7 +79,7 @@ void	leakscheck()
 
 int	main(int argc, char **argv)
 {
-	//atexit(leakscheck);
+	atexit(leakscheck);
 	t_game	game;
 	int counter;
 
@@ -101,6 +101,10 @@ int	main(int argc, char **argv)
 		free(game.map);
 		return (0);
 	}
+	// catching memory leaks in map parsing
+	free_game_map(&game);
+	exit(1);
+
 	game.mlx.mlx = mlx_init();
 	game.mlx.win = mlx_new_window(game.mlx.mlx, TYPE_HOR_PIX, TYPE_VER_PIX, "cub3d");
 
