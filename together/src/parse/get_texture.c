@@ -6,7 +6,7 @@
 /*   By: minhekim <minhekim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 20:41:57 by minhekim          #+#    #+#             */
-/*   Updated: 2022/08/14 21:51:49 by minhekim         ###   ########.fr       */
+/*   Updated: 2022/08/15 00:56:56 by minhekim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,17 +85,17 @@ int	parse_value(t_map *map, char *line)
 	if (word_cnt(line, ' ') != 2)
 		return (1);
 	token = ft_split(line, ' ');
-	if (equals(token[0], "NO") == 0)
+	if (equals(token[0], "NO") == 0 && !map->n_path)
 		map->n_path = ft_strdup(token[1]);
-	else if (equals(token[0], "SO") == 0)
+	else if (equals(token[0], "SO") == 0 && !map->s_path)
 		map->s_path = ft_strdup(token[1]);
-	else if (equals(token[0], "WE") == 0)
+	else if (equals(token[0], "WE") == 0 && !map->w_path)
 		map->w_path = ft_strdup(token[1]);
-	else if (equals(token[0], "EA") == 0)
+	else if (equals(token[0], "EA") == 0 && !map->e_path)
 		map->e_path = ft_strdup(token[1]);
-	else if (equals(token[0], "F") == 0)
+	else if (equals(token[0], "F") == 0 && map->floor_rgb == 1)
 		map->floor_rgb = get_rgb(token[1]);
-	else if (equals(token[0], "C") == 0)
+	else if (equals(token[0], "C") == 0 && map->ceil_rgb == 1)
 		map->ceil_rgb = get_rgb(token[1]);
 	else
 		ret = 1;
@@ -114,14 +114,12 @@ int	get_texture(t_map *map, int fd)
 	parsing = 1;
 	while (parsing && line != NULL)
 	{
-		if (ft_strlen(line) != 0)
+		if (ft_strlen(line) != 0 && parse_value(map, line))
 		{
-			if (parse_value(map, line))
-			{
-				free_texpath(map);
-				close(fd);
-				return (1);
-			}
+			free(line);
+			free_texpath(map);
+			close(fd);
+			return (1);
 		}
 		parsing = check_parsing(map);
 		if (parsing != 0)
@@ -131,5 +129,7 @@ int	get_texture(t_map *map, int fd)
 		}
 	}
 	free(line);
+	if (check_texname(map) != 0)
+		return (1);
 	return (0);
 }

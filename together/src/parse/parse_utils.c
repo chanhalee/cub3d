@@ -6,7 +6,7 @@
 /*   By: minhekim <minhekim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 21:00:57 by minhekim          #+#    #+#             */
-/*   Updated: 2022/08/14 22:16:24 by minhekim         ###   ########.fr       */
+/*   Updated: 2022/08/15 00:57:45 by minhekim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,11 @@ int	equals(char *s1, char *s2)
 		i++;
 	}
 	return (0);
+}
+
+void	inc_size(t_map *map)
+{
+	map->size_x += 2;
+	map->size_y += 2;
+	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: minhekim <minhekim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 22:16:48 by minhekim          #+#    #+#             */
-/*   Updated: 2022/08/14 22:33:45 by minhekim         ###   ########.fr       */
+/*   Updated: 2022/08/15 01:39:09 by minhekim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,6 @@ int	key_press(int keycode, t_game *game)
 		exit_game(game);
 	keep_distance_with_wall(game->map);
 	if (render(game) == 1)
-		;//render fail shall we exit_game? -chanhale added-
+		;
 	return (0);
 }

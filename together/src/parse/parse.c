@@ -6,15 +6,16 @@
 /*   By: minhekim <minhekim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 21:49:26 by minhekim          #+#    #+#             */
-/*   Updated: 2022/08/14 22:49:32 by minhekim         ###   ########.fr       */
+/*   Updated: 2022/08/15 01:19:16 by minhekim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/cub3d.h"
 
-void	*invalid_file(int fd, t_map *map)
+void	*invalid_file(int fd, t_map *map, char *line)
 {
 	free_texpath(map);
+	free(line);
 	close(fd);
 	return (NULL);
 }
@@ -32,8 +33,8 @@ t_str	*buffer_map(int fd, t_map *map)
 		free(line);
 		x = get_next_line(fd, &line);
 	}
-	if (line == NULL)
-		return (invalid_file(fd, map));
+	if (x == 0)
+		return (invalid_file(fd, map, line));
 	while (x)
 	{
 		if (ft_strlen(line) > map->size_y)
@@ -44,6 +45,7 @@ t_str	*buffer_map(int fd, t_map *map)
 		x = get_next_line(fd, &line);
 	}
 	free(line);
+	close(fd);
 	return (temp);
 }
 
@@ -97,22 +99,22 @@ int	parse_map(t_map *map, char *filename)
 		return (1);
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
-		return (1);
+		return (2);
 	init_map(map);
 	if (get_texture(map, fd) != 0)
-		return (1);
+		return (3);
 	temp = buffer_map(fd, map);
 	if (temp == NULL)
-		return (1);
-	close(fd);
+		return (4);
 	if (convert_map(map, temp) != 0)
 	{
 		str_clear(&temp);
 		free_texpath(map);
-		return (1);
+		return (5);
 	}
 	str_clear(&temp);
 	if (check_valid_map(map) != 0)
-		return (1);
+		return (6);
+	inc_size(map);
 	return (0);
 }

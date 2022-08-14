@@ -19,8 +19,10 @@ SRCS	= 	./main.c \
 			util/minhekim_util/str.c \
 			util/minhekim_util/string_utils.c \
 			util/minhekim_util/init_img.c \
+			util/minhekim_util/error.c \
 			ray_casting/ray_casting.c \
 			parse/check_valid_map.c \
+			parse/check_texname.c \
 			parse/get_texture.c \
 			parse/parse_utils.c \
 			parse/parse.c \

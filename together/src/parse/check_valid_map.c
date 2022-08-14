@@ -6,7 +6,7 @@
 /*   By: chanhale <chanhale@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 21:01:06 by minhekim          #+#    #+#             */
-/*   Updated: 2022/08/14 23:11:41 by chanhale         ###   ########.fr       */
+/*   Updated: 2022/08/15 00:37:53 by minhekim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,10 @@ int	check_valid_map(t_map *map)
 	int	j;
 
 	if (check_edges(map) != 0 || check_user_pos(map) != 0)
+	{
+		free_map_all(map, map->size_x + 2);
 		return (1);
+	}
 	i = 1;
 	while (i <= map->size_x)
 	{
@@ -115,7 +118,5 @@ int	check_valid_map(t_map *map)
 		}
 		i++;
 	}
-	map->size_x += 2;
-	map->size_y += 2;
 	return (0);
 }

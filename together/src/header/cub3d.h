@@ -6,7 +6,7 @@
 /*   By: chanhale <chanhale@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:26:10 by chanhale          #+#    #+#             */
-/*   Updated: 2022/08/14 22:12:12 by minhekim         ###   ########.fr       */
+/*   Updated: 2022/08/15 01:37:11 by minhekim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,8 @@ int						check_valid_map(t_map *map);
 int						check_filename(char *filename);
 void					init_map(t_map *map);
 int						init_img(t_game *game);
+void					inc_size(t_map *map);
+int						check_texname(t_map *map);
 
 void					ft_strfill(char *buf, int start, int end, char c);
 void					ft_strcpy(char *dest, char *src);
@@ -158,5 +160,9 @@ void					free_game_mlx(t_game *game);
 int						exit_game(t_game *game);
 int						key_press(int keycode, t_game *game);
 int						exit_hook(t_game *game);
+
+int						arg_error(void);
+int						img_error(void);
+int						parse_error(int flag, t_map *map);
 
 #endif
