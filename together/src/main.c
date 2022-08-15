@@ -6,7 +6,7 @@
 /*   By: chanhale <chanhale@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 22:34:16 by minhekim          #+#    #+#             */
-/*   Updated: 2022/08/15 09:11:04 by chanhale         ###   ########.fr       */
+/*   Updated: 2022/08/15 09:27:33 by minhekim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 void	leakscheck(void)
 {
-	system("leaks cub3d");
+	system("leaks cub3D");
 }
 
 int	main(int argc, char **argv)
