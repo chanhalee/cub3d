@@ -6,7 +6,7 @@
 /*   By: chanhale <chanhale@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 22:34:16 by minhekim          #+#    #+#             */
-/*   Updated: 2022/08/15 09:27:33 by minhekim         ###   ########.fr       */
+/*   Updated: 2022/08/15 09:31:56 by chanhale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	main(int argc, char **argv)
 	t_game	game;
 	int		flag;
 
-	atexit(leakscheck);
 	init_game(&game);
 	if (argc != 2)
 		return (arg_error());
