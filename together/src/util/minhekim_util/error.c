@@ -6,7 +6,7 @@
 /*   By: minhekim <minhekim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 01:34:32 by minhekim          #+#    #+#             */
-/*   Updated: 2022/08/15 01:36:57 by minhekim         ###   ########.fr       */
+/*   Updated: 2022/08/15 09:23:43 by minhekim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,19 @@ void	put_error(char *s)
 
 int	arg_error(void)
 {
-	put_error("Error: wrong number of arguments\n");
+	put_error("Error\nwrong number of arguments\n");
 	return (1);
 }
 
 int	img_error(void)
 {
-	put_error("Error: failed to open image files\n");
+	put_error("Error\nfailed to open image files\n");
 	return (1);
 }
 
 int	parse_error(int flag, t_map *map)
 {
-	put_error("Error: ");
+	put_error("Error\n");
 	if (flag == 1)
 		put_error("filename is not a valid .cub format\n");
 	else if (flag == 2)
