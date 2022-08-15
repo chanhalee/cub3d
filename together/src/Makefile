@@ -1,4 +1,4 @@
-NAME	=	cub3d
+NAME	=	cub3D
 
 SRCS	= 	./main.c \
 			util/chanhale_util/get_distance.c \

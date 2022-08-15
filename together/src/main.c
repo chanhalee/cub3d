@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minhekim <minhekim@student.42.fr>          +#+  +:+       +#+        */
+/*   By: chanhale <chanhale@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 22:34:16 by minhekim          #+#    #+#             */
-/*   Updated: 2022/08/15 01:38:48 by minhekim         ###   ########.fr       */
+/*   Updated: 2022/08/15 09:11:04 by chanhale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ int	main(int argc, char **argv)
 	if (flag != 0)
 		return (parse_error(flag, game.map));
 	game.mlx.mlx = mlx_init();
-	game.mlx.win = mlx_new_window(game.mlx.mlx, TYPE_HOR_PIX, TYPE_VER_PIX, "cub3d");
+	game.mlx.win
+		= mlx_new_window(game.mlx.mlx, TYPE_HOR_PIX, TYPE_VER_PIX, "cub3d");
 	if (init_img(&game) != 0)
 		return (1);
 	if (init_chanhale_assets(&game))
