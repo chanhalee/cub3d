@@ -41,6 +41,8 @@ CFLAGS	= -Wall -Wextra -Werror
 
 all:		$(NAME)
 
+bonus:		$(NAME)
+
 $(NAME):	$(OBJS)
 			arch -x86_64 $(CC) $(CFLAGS) -L../mlx -lmlx -framework OpenGL -framework AppKit $^ -o $@
 
@@ -52,4 +54,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all, clean, fclean, re
+.PHONY: all, clean, fclean, re, bonus
